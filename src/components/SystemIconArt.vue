@@ -113,8 +113,9 @@ defineProps<{ art: SystemArt }>()
     <template v-else-if="art === 'gear'">
       <defs>
         <linearGradient id="sa-g-bg" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#9a9aa0" />
-          <stop offset="1" stop-color="#4a4a50" />
+          <stop offset="0" stop-color="#a2a2a8" />
+          <stop offset="0.55" stop-color="#6c6c72" />
+          <stop offset="1" stop-color="#3c3c41" />
         </linearGradient>
         <linearGradient id="sa-g-metal" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stop-color="#fafafc" />
@@ -135,9 +136,28 @@ defineProps<{ art: SystemArt }>()
         stroke-linejoin="round"
       />
       <circle cx="50" cy="50" r="22" fill="url(#sa-g-well)" />
+      <!-- machined rings -->
+      <circle cx="50" cy="50" r="19" fill="none" stroke="#fff" stroke-opacity="0.12" stroke-width="0.8" />
+      <circle cx="50" cy="50" r="16" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="0.8" />
       <circle cx="50" cy="50" r="12" fill="url(#sa-g-metal)" stroke="#6d6d74" stroke-width="0.8" />
       <circle cx="50" cy="50" r="4.5" fill="#3a3a40" />
+      <ellipse cx="46" cy="45" rx="5" ry="2.6" fill="#fff" opacity="0.45" />
     </template>
+
+    <!-- Shared iOS-style finish: soft top-lit sheen and a lit rim, so every icon reads as one family -->
+    <defs>
+      <radialGradient id="sa-sheen" cx="0.3" cy="0" r="0.95">
+        <stop offset="0" stop-color="#fff" stop-opacity="0.38" />
+        <stop offset="0.45" stop-color="#fff" stop-opacity="0.08" />
+        <stop offset="1" stop-color="#fff" stop-opacity="0" />
+      </radialGradient>
+      <linearGradient id="sa-floor" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0.6" stop-color="#000" stop-opacity="0" />
+        <stop offset="1" stop-color="#000" stop-opacity="0.12" />
+      </linearGradient>
+    </defs>
+    <rect width="100" height="100" fill="url(#sa-floor)" />
+    <rect width="100" height="100" fill="url(#sa-sheen)" />
   </svg>
 </template>
 

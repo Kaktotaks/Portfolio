@@ -57,6 +57,7 @@ function onClick(event: MouseEvent) {
 
 <style scoped>
 .app-icon {
+  font: inherit;
   display: flex;
   flex-direction: column;
   align-items: center;
