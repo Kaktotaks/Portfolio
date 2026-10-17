@@ -3,8 +3,12 @@ import iconFsfu from '../assets/img/icon-fsfu.webp'
 import iconLifecell from '../assets/img/icon-lifecell.webp'
 import iconLiven from '../assets/img/icon-liven.webp'
 import iconTelquel from '../assets/img/icon-telquel.webp'
-import lifecell1 from '../assets/img/lifecell-1.webp'
-import type { HomeApp, LinkApp, Profile, Project, SystemApp } from './types'
+import type { HomeApp, LinkApp, Profile, Project, Screenshot, SystemApp } from './types'
+
+// App Store screenshots live in assets/img as shot-<app>-<n>.webp
+const shotFiles = import.meta.glob<string>('../assets/img/shot-*.webp', { eager: true, import: 'default' })
+const shots = (app: string, alts: string[]): Screenshot[] =>
+  alts.map((alt, i) => ({ src: shotFiles[`../assets/img/shot-${app}-${i + 1}.webp`], alt }))
 
 /**
  * Single source of truth for the site.
@@ -111,6 +115,14 @@ export const projects: Project[] = [
       { value: '10+', label: 'paywall variants' },
     ],
     stack: ['Swift', 'SwiftUI', 'UIKit', 'TCA', 'Combine', 'GraphQL', 'GrowthBook', 'AppsFlyer', 'Vue 3', 'TypeScript'],
+    screenshots: shots('liven', [
+      'Liven intro: build emotional skills with an AI coach',
+      'AI coach for navigating emotions',
+      'Feedback practice',
+      'Personal learning path',
+      'Daily progress and streaks',
+      'Real-life practice scenarios',
+    ]),
     links: [{ label: 'App Store', url: 'https://apps.apple.com/ua/app/liven-ai-life-coach/id6450840109' }],
   },
   {
@@ -136,7 +148,13 @@ export const projects: Project[] = [
       { value: '99.9%', label: 'crash-free' },
     ],
     stack: ['Swift', 'UIKit', 'MVVM+C', 'RxSwift', 'Combine', 'Crashlytics', 'Sentry'],
-    screenshots: [{ src: lifecell1, alt: 'My lifecell home screen with tariff promo and account menu' }],
+    screenshots: shots('lifecell', [
+      'Home screen: balance and tariff at a glance',
+      'Shake & Win gifts',
+      'Managing multiple numbers',
+      'Expense details',
+      'Choosing a tariff',
+    ]),
     links: [{ label: 'App Store', url: 'https://apps.apple.com/ua/app/my-lifecell/id580080545' }],
   },
   {
@@ -160,6 +178,14 @@ export const projects: Project[] = [
     ],
     metrics: [],
     stack: ['Swift', 'UIKit', 'RxSwift', 'MVVM+C', 'WKWebView', 'StoreKit', 'PDFKit'],
+    screenshots: shots('telquel', [
+      'TelQuel news feed',
+      'Magazine issues',
+      'Articles and podcasts in one app',
+      'Article search',
+      'Subscription flow',
+      'Archive of 1000+ issues',
+    ]),
     links: [{ label: 'App Store', url: 'https://apps.apple.com/ua/app/telquel/id1504054422' }],
   },
   {
@@ -183,6 +209,12 @@ export const projects: Project[] = [
       { value: 'Offline', label: 'first' },
     ],
     stack: ['Swift', 'SwiftUI', 'Core Data'],
+    screenshots: shots('fsfu', [
+      'FSFU launch screen',
+      'Competition events',
+      'Catch photos with time and approval status',
+      'Catch photo with GPS and timestamp overlay',
+    ]),
     links: [{ label: 'App Store', url: 'https://apps.apple.com/ua/app/%D1%84%D1%80%D1%81%D1%83/id6624305618' }],
   },
 ]

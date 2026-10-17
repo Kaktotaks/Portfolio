@@ -209,10 +209,10 @@ h1 {
 
 .shot {
   flex: none;
-  width: min(46%, 220px);
-  aspect-ratio: 9 / 19.5;
-  object-fit: cover;
-  border-radius: 24px;
+  /* Fixed height, natural width: App Store sets mix 9:16 and 9:19.5 */
+  height: min(420px, 56vh);
+  width: auto;
+  border-radius: 22px;
   box-shadow:
     0 0 0 1px var(--glass-edge),
     0 10px 30px rgb(0 0 0 / 0.18);
