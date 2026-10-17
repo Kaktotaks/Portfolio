@@ -219,6 +219,9 @@ defineExpose({ close })
       <slot />
     </div>
 
+    <!-- Full-screen layer apps can teleport into (e.g. the Photos viewer), above nav and gestures -->
+    <div id="window-overlay" class="overlay" />
+
     <!-- Edge swipe zone for the back gesture -->
     <div class="edge-zone" aria-hidden="true" v-bind="edgeDrag" />
 
@@ -361,6 +364,24 @@ defineExpose({ close })
 
 .home-bar:active {
   cursor: grabbing;
+}
+
+/* Apps like Photos are opaque, not frosted */
+.window.solid {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background: var(--photos-bg);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+}
+
+.overlay > :deep(*) {
+  pointer-events: auto;
 }
 
 .window.animating {

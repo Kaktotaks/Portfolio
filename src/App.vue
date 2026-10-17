@@ -13,6 +13,7 @@ import StatusBar from './components/StatusBar.vue'
 import Wallpaper from './components/Wallpaper.vue'
 import AboutApp from './components/apps/AboutApp.vue'
 import ExperienceApp from './components/apps/ExperienceApp.vue'
+import PhotosApp from './components/apps/PhotosApp.vue'
 import ProjectApp from './components/apps/ProjectApp.vue'
 import SkillsApp from './components/apps/SkillsApp.vue'
 import widgetPhoto from './assets/img/widget-photo.webp'
@@ -203,6 +204,7 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
           v-if="openApp"
           :key="openApp.id"
           ref="windowRef"
+          :class="{ solid: openApp.id === 'photos' }"
           :title="openApp.name"
           :icon="openApp.icon"
           :origin="origin"
@@ -213,6 +215,7 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
           <AboutApp v-else-if="openApp.id === 'about'" :profile="profile" :contacts="dock" />
           <ExperienceApp v-else-if="openApp.id === 'notes'" :experience="profile.experience" />
           <SkillsApp v-else-if="openApp.id === 'settings'" :skills="profile.skills" />
+          <PhotosApp v-else-if="openApp.id === 'photos'" />
         </AppWindow>
 
         <Shade v-if="shadeKind" ref="shadeRef" :key="shadeKind" :kind="shadeKind" @closed="shadeKind = null">

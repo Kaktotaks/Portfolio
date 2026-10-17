@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Photo originals (web versions are generated into src/assets/photos)
+photos-src/

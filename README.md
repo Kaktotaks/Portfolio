@@ -27,6 +27,15 @@ App Store artwork (`src/assets/img/icon-*.webp`, set via `icon.image`); system a
 use a gradient + glyph (`src/components/Glyph.vue`). Set `draft: true` to show a
 "coming soon" screen until a case study is written.
 
+## Photos app
+
+1. Put original photos (HEIC, JPG, PNG, WebP) into `photos-src/` — it's git-ignored.
+2. Run `pip install pillow pillow-heif && python3 tools/add-photos.py`.
+3. Commit `src/assets/photos/` and `src/data/photos.json`.
+
+The script makes web-size images and square grid thumbnails, reads the capture date from EXIF,
+and keeps any `caption` you add to `photos.json` by hand.
+
 ## Glass material
 
 `.glass` (on app sheets) and `.glass-clear` (on the wallpaper) in `src/style.css`.

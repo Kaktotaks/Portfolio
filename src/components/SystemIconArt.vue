@@ -49,6 +49,41 @@ defineProps<{ art: SystemArt }>()
       <rect x="44" y="48" width="12" height="9" rx="2.5" fill="#ff8a1a" />
     </template>
 
+    <!-- Photos: original design — a sunrise snapshot on a white tile (not Apple's flower) -->
+    <template v-else-if="art === 'photos'">
+      <defs>
+        <linearGradient id="sa-p-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#ffffff" />
+          <stop offset="1" stop-color="#eeeef2" />
+        </linearGradient>
+        <linearGradient id="sa-p-sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#ff9a62" />
+          <stop offset="0.55" stop-color="#ffc36b" />
+          <stop offset="1" stop-color="#ffe29a" />
+        </linearGradient>
+        <linearGradient id="sa-p-hill1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#7c5cff" />
+          <stop offset="1" stop-color="#4b33c9" />
+        </linearGradient>
+        <linearGradient id="sa-p-hill2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2fa8ff" />
+          <stop offset="1" stop-color="#1167d9" />
+        </linearGradient>
+        <clipPath id="sa-p-clip"><rect x="20" y="22" width="60" height="56" rx="10" /></clipPath>
+      </defs>
+      <rect width="100" height="100" fill="url(#sa-p-bg)" />
+      <!-- a second print peeking behind -->
+      <rect x="26" y="16" width="52" height="52" rx="9" fill="#ff5f8f" opacity="0.9" transform="rotate(-8 52 42)" />
+      <rect x="20" y="22" width="60" height="56" rx="10" fill="#000" opacity="0.12" transform="translate(0 2)" />
+      <g clip-path="url(#sa-p-clip)">
+        <rect x="20" y="22" width="60" height="56" fill="url(#sa-p-sky)" />
+        <circle cx="62" cy="40" r="7.5" fill="#fff6d9" />
+        <path d="M14 70 36 48l14 13 10-8 26 23V84H14Z" fill="url(#sa-p-hill1)" />
+        <path d="M14 76c14-8 28-10 40-6s22 4 32-2V84H14Z" fill="url(#sa-p-hill2)" />
+      </g>
+      <rect x="20" y="22" width="60" height="56" rx="10" fill="none" stroke="#fff" stroke-width="3" />
+    </template>
+
     <!-- Skills: machined gear on graphite -->
     <template v-else-if="art === 'gear'">
       <defs>

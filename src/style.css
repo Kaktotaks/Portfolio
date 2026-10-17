@@ -13,6 +13,7 @@
   --sheet: rgb(246 246 250 / 0.62);
   --sheet-solid: rgb(242 242 247 / 0.96);
   --card-fill: rgb(120 120 128 / 0.1);
+  --photos-bg: #ffffff;
   --skeleton-base: rgb(120 120 128 / 0.14);
   --skeleton-shape: rgb(120 120 128 / 0.16);
   --skeleton-sheen: rgb(255 255 255 / 0.55);
@@ -46,6 +47,8 @@
     --sheet: rgb(16 16 22 / 0.55);
     --sheet-solid: rgb(22 22 28 / 0.96);
     --card-fill: rgb(255 255 255 / 0.08);
+  --photos-bg: #000000;
+    --photos-bg: #000000;
     --card-fill: rgb(255 255 255 / 0.08);
   --skeleton-base: rgb(255 255 255 / 0.07);
     --skeleton-shape: rgb(255 255 255 / 0.08);
