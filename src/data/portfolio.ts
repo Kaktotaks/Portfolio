@@ -273,3 +273,9 @@ export const notices: Notice[] = [
   { appId: 'fsfu', title: 'Shipped solo', body: 'Offline-first SwiftUI app, from first screen to App Store.', when: 'ongoing' },
   { appId: 'telquel', title: 'Media app', body: 'In-App Purchases, WKWebView and PDFKit at Drum’N’Code.', when: '2022' },
 ]
+
+/** LinkedIn-style "Highlights" widget on the home screen. */
+export const linkedinWidget = {
+  summary: 'Senior iOS engineer, 5+ years. Apps for 1M+ and 10M+ users: monetization, growth, stability.',
+  footer: 'Open to work',
+}

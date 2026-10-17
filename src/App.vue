@@ -7,6 +7,7 @@ import ControlCenter from './components/ControlCenter.vue'
 import NotificationCenter from './components/NotificationCenter.vue'
 import Shade from './components/Shade.vue'
 import Dock from './components/Dock.vue'
+import LinkedInWidget from './components/LinkedInWidget.vue'
 import LockScreen from './components/LockScreen.vue'
 import StatusBar from './components/StatusBar.vue'
 import Wallpaper from './components/Wallpaper.vue'
@@ -14,9 +15,10 @@ import AboutApp from './components/apps/AboutApp.vue'
 import ExperienceApp from './components/apps/ExperienceApp.vue'
 import ProjectApp from './components/apps/ProjectApp.vue'
 import SkillsApp from './components/apps/SkillsApp.vue'
+import widgetPhoto from './assets/img/widget-photo.webp'
 import { useClock } from './composables/useClock'
 import { useDrag } from './composables/useDrag'
-import { dock, homeApps, notices, profile } from './data/portfolio'
+import { dock, homeApps, linkedinWidget, notices, profile, projects } from './data/portfolio'
 import type { HomeApp, Project, SystemApp } from './data/types'
 
 type OpenableApp = Project | SystemApp
@@ -168,7 +170,18 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
           </section>
 
           <nav class="grid" aria-label="Projects and info">
-            <AppIcon v-for="app in homeApps" :key="app.id" :app="app" @open="launch" />
+            <template v-for="(app, i) in homeApps" :key="app.id">
+              <AppIcon :app="app" @open="launch" />
+              <!-- Widget sits after the projects; the grid flows the system apps around it -->
+              <LinkedInWidget
+                v-if="i === projects.length - 1"
+                :name="profile.name"
+                :summary="linkedinWidget.summary"
+                :footer="linkedinWidget.footer"
+                :photo="widgetPhoto"
+                :url="dock.find((d) => d.id === 'linkedin')!.url"
+              />
+            </template>
           </nav>
 
           <div class="dock-wrap">
@@ -337,6 +350,7 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
   margin-top: 28px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  grid-auto-flow: row dense;
   row-gap: 24px;
   justify-items: center;
   align-content: start;
