@@ -2,6 +2,7 @@
 import { onMounted, onUnmounted, ref, shallowRef } from 'vue'
 import AppIcon from './components/AppIcon.vue'
 import AppWindow from './components/AppWindow.vue'
+import Avatar from './components/Avatar.vue'
 import ControlCenter from './components/ControlCenter.vue'
 import NotificationCenter from './components/NotificationCenter.vue'
 import Shade from './components/Shade.vue'
@@ -170,8 +171,11 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
           <h1 class="visually-hidden">{{ profile.name }} — {{ profile.title }}</h1>
 
           <section class="widget glass-clear" aria-label="Introduction">
-            <p class="widget-name">{{ profile.name }}</p>
-            <p class="widget-title">{{ profile.title }}</p>
+            <div class="widget-avatar"><Avatar /></div>
+            <div class="widget-text">
+              <p class="widget-name">{{ profile.name }}</p>
+              <p class="widget-title">{{ profile.title }}</p>
+            </div>
           </section>
 
           <nav class="grid" aria-label="Projects and info">
@@ -313,12 +317,31 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
   text-shadow: 0 1px 2px rgb(0 0 0 / 0.15);
 }
 
+.widget {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.widget > * {
+  position: relative;
+  z-index: 2;
+}
+
+.widget-avatar {
+  flex: none;
+  width: 78px;
+  height: 78px;
+  margin: -6px 0 -6px -6px;
+}
+
 .widget p {
   margin: 0;
 }
 
 .widget-name {
-  font-size: 24px;
+  font-size: 21px;
+  white-space: nowrap;
   font-weight: 700;
   letter-spacing: -0.01em;
 }
@@ -354,6 +377,14 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
   .widget {
     align-self: start;
     padding: 24px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .widget-avatar {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 4px;
   }
 
   .widget-name {
