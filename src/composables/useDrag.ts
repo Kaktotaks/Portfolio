@@ -9,7 +9,7 @@ export interface DragState {
   /** px per ms, positive = right / down */
   vx: number
   vy: number
-  /** true when the pointer barely moved — treat as a tap */
+  /** true when the pointer never left the tap slop during the whole gesture — treat as a tap */
   tap: boolean
   startX: number
   startY: number
@@ -32,6 +32,9 @@ const TAP_SLOP = 6
 export function useDrag(h: Handlers) {
   let active = false
   let captured = false
+  // Whether the pointer EVER left the tap slop. Judging taps by the end position alone meant
+  // dragging out and back to the start counted as a tap, and the shade stayed half-open.
+  let moved = false
   let el: HTMLElement | null = null
   let startX = 0
   let startY = 0
@@ -48,12 +51,13 @@ export function useDrag(h: Handlers) {
     samples = samples.filter((s) => now - s.t < 100)
     const first = samples[0]
     const dt = Math.max(1, now - first.t)
+    if (Math.hypot(dx, dy) >= TAP_SLOP) moved = true
     return {
       dx,
       dy,
       vx: (e.clientX - first.x) / dt,
       vy: (e.clientY - first.y) / dt,
-      tap: Math.hypot(dx, dy) < TAP_SLOP,
+      tap: !moved,
       startX,
       startY,
     }
@@ -64,6 +68,7 @@ export function useDrag(h: Handlers) {
     startX = e.clientX
     startY = e.clientY
     samples = [{ t: performance.now(), x: startX, y: startY }]
+    moved = false
     const s = state(e)
     if (h.start?.(s, e) === false) return
     active = true
@@ -103,7 +108,8 @@ export function useDrag(h: Handlers) {
     h.end?.(state(e), e)
   }
 
-  return { onPointerdown, onPointermove, onPointerup, onPointercancel: onPointerup }
+  // If capture is lost without a pointerup (window blur, OS gesture), still finish the gesture
+  return { onPointerdown, onPointermove, onPointerup, onPointercancel: onPointerup, onLostpointercapture: onPointerup }
 }
 
 /** Rubber-band resistance past a limit, like UIScrollView overscroll. */

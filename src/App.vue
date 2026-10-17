@@ -28,6 +28,7 @@ const { time, date } = useClock(profile.timeZone)
 const locked = ref(readUnlocked() ? false : true)
 const openApp = shallowRef<OpenableApp | null>(null)
 const origin = shallowRef<DOMRect | null>(null)
+const appClosing = ref(false)
 let returnFocusTo: HTMLElement | null = null
 
 
@@ -51,6 +52,7 @@ function unlock() {
 function launch(app: HomeApp, rect: DOMRect | null) {
   if (app.kind === 'link') return
   returnFocusTo = document.activeElement as HTMLElement | null
+  appClosing.value = false
   origin.value = rect
   openApp.value = app
   if (location.hash !== `#/${app.id}`) history.pushState(null, '', `#/${app.id}`)
@@ -58,6 +60,7 @@ function launch(app: HomeApp, rect: DOMRect | null) {
 
 function onClosed() {
   openApp.value = null
+  appClosing.value = false
   if (location.hash) history.pushState(null, '', location.pathname + location.search)
   returnFocusTo?.focus({ preventScroll: true })
 }
@@ -101,6 +104,17 @@ function openShade(kind: ShadeKind) {
   withShade(kind, (s) => requestAnimationFrame(() => s.settle(true)))
 }
 
+// A drag that ends on the pull zone also fires a click. Swallow it, or every cancelled pull
+// would reopen the shade.
+let swallowClick = false
+function onPullClick(kind: ShadeKind) {
+  if (swallowClick) {
+    swallowClick = false
+    return
+  }
+  openShade(kind)
+}
+
 /** Pull down from the left or right half of the status bar, like iOS. */
 function pullFrom(kind: ShadeKind) {
   return useDrag({
@@ -111,6 +125,8 @@ function pullFrom(kind: ShadeKind) {
     },
     end: ({ dy, vy, tap }) => {
       if (tap || !shadeKind.value) return
+      swallowClick = true
+      window.setTimeout(() => (swallowClick = false), 0)
       shadeRef.value?.settle(dy > screenHeight() * 0.18 || vy > 0.5)
     },
   })
@@ -147,17 +163,17 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
           class="pull pull-left"
           aria-label="Open Notification Center"
           v-bind="pullNotifications"
-          @click="openShade('notifications')"
+          @click="onPullClick('notifications')"
         />
         <button
           type="button"
           class="pull pull-right"
           aria-label="Open Control Center"
           v-bind="pullControl"
-          @click="openShade('control')"
+          @click="onPullClick('control')"
         />
 
-        <div class="home" :class="{ receded: openApp, locked }" :inert="!!openApp || locked">
+        <div class="home" :class="{ receded: openApp && !appClosing, locked }" :inert="!!openApp || locked">
           <h1 class="visually-hidden">{{ profile.name }} — {{ profile.title }}</h1>
 
           <nav class="grid" aria-label="Projects and info">
@@ -184,6 +200,7 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
           :title="openApp.name"
           :icon="openApp.icon"
           :origin="origin"
+          @closing="appClosing = true"
           @closed="onClosed"
         >
           <ProjectApp v-if="openApp.kind === 'project'" :project="openApp" />

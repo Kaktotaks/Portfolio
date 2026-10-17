@@ -80,6 +80,8 @@ export interface LinkApp {
   name: string
   icon: IconStyle
   url: string
+  /** iOS-style red badge count; cleared for good once the visitor taps the icon */
+  badge?: number
 }
 
 export type HomeApp = Project | SystemApp | LinkApp

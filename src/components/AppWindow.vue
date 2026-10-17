@@ -3,14 +3,14 @@ import { nextTick, onMounted, onUnmounted, ref } from 'vue'
 import type { IconStyle } from '../data/types'
 import Glyph from './Glyph.vue'
 import SystemIconArt from './SystemIconArt.vue'
-import { useDrag } from '../composables/useDrag'
+import { rubberband, useDrag } from '../composables/useDrag'
 
 /**
  * A full-screen "app" that zooms out of the icon it was launched from (FLIP),
  * and shrinks back into it on close — like iOS.
  */
 const props = defineProps<{ title: string; icon: IconStyle; origin: DOMRect | null }>()
-const emit = defineEmits<{ closed: [] }>()
+const emit = defineEmits<{ closing: []; closed: [] }>()
 
 const root = ref<HTMLElement>()
 const closeButton = ref<HTMLButtonElement>()
@@ -78,13 +78,37 @@ function onKey(e: KeyboardEvent) {
   if (e.key === 'Escape') close()
 }
 
+/**
+ * Re-express the window's current on-screen frame as a transform with origin 0 0, so the close
+ * animation starts exactly where a drag left the card — no jump when the transform origin changes.
+ */
+function freezeCurrentFrame() {
+  const el = root.value
+  if (!el || !el.style.transform) return
+  const box = (el.parentElement ?? el).getBoundingClientRect()
+  const r = el.getBoundingClientRect()
+  const sx = r.width / box.width
+  apply({
+    transform: `translate(${r.left - box.left}px, ${r.top - box.top}px) scale(${sx}, ${r.height / box.height})`,
+    transformOrigin: '0 0',
+    borderRadius: `${parseFloat(el.style.borderRadius || '0') || 0}px`,
+    transition: 'none',
+  })
+  void el.offsetWidth // commit this frame before animating from it
+}
+
 function close() {
   if (closing) return
   closing = true
+  // Let the home screen zoom back in *while* the app shrinks, as on iOS — not after
+  emit('closing')
+  root.value?.classList.add('animating')
   const content = root.value?.querySelector('.content') as HTMLElement | null
   if (content) content.scrollTop = 0
+  freezeCurrentFrame()
   apply({
     ...collapsedTransform(),
+    transformOrigin: '0 0',
     transition: reduceMotion ? 'opacity 160ms ease' : `transform ${DURATION - 60}ms ${EASE}, border-radius ${DURATION - 60}ms ${EASE}`,
   })
   iconOpacity.value = 1
@@ -113,7 +137,8 @@ const homeDrag = useDrag({
   },
   move: ({ dx, dy }) => {
     const { h } = screenSize()
-    const up = Math.max(0, -dy)
+    // Rubber-band the travel so the card can never be dragged off the top of the screen
+    const up = rubberband(Math.max(0, -dy), h * 0.45)
     const p = Math.min(1, up / (h * 0.55))
     const scale = 1 - p * 0.5
     apply({
@@ -150,6 +175,7 @@ const edgeDrag = useDrag({
     const { w } = screenSize()
     if (dx > w * 0.33 || vx > 0.5) {
       closing = true
+      emit('closing')
       apply({ transform: `translateX(${w}px)`, transition: `transform 280ms ${EASE}` })
       window.setTimeout(() => emit('closed'), 280)
     } else springBack()
@@ -335,6 +361,13 @@ defineExpose({ close })
 
 .home-bar:active {
   cursor: grabbing;
+}
+
+.window.animating {
+  /* While shrinking to the icon the blur behind changes every frame; the icon face covers it anyway */
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background: var(--sheet-solid);
 }
 
 .edge-zone {

@@ -232,6 +232,7 @@ export const dock: LinkApp[] = [
     name: 'LinkedIn',
     icon: { glyph: 'linkedin', from: '#3b82f6', to: '#1d4ed8' },
     url: 'https://www.linkedin.com/in/leonid-shevchenko-0a4241b1/',
+    badge: 1,
   },
   {
     kind: 'link',
