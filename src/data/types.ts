@@ -37,6 +37,8 @@ export interface Metric {
 export interface Screenshot {
   src: string
   alt: string
+  /** width / height, so the skeleton has the right shape before the image loads */
+  ratio: number
 }
 
 export interface ProjectLink {

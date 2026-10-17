@@ -1,5 +1,9 @@
 import avatar from '../assets/img/avatar.webp'
 import iconFsfu from '../assets/img/icon-fsfu.webp'
+import iconGithub from '../assets/img/icon-github.webp'
+import iconGmail from '../assets/img/icon-gmail.webp'
+import iconInstagram from '../assets/img/icon-instagram.webp'
+import iconLinkedin from '../assets/img/icon-linkedin.webp'
 import iconLifecell from '../assets/img/icon-lifecell.webp'
 import iconLiven from '../assets/img/icon-liven.webp'
 import iconTelquel from '../assets/img/icon-telquel.webp'
@@ -7,8 +11,15 @@ import type { HomeApp, LinkApp, Profile, Project, Screenshot, SystemApp } from '
 
 // App Store screenshots live in assets/img as shot-<app>-<n>.webp
 const shotFiles = import.meta.glob<string>('../assets/img/shot-*.webp', { eager: true, import: 'default' })
+// width / height of each app's App Store screenshots (all 600 px wide)
+const SHOT_RATIO: Record<string, number> = {
+  liven: 600 / 1299,
+  lifecell: 600 / 1067,
+  telquel: 600 / 1067,
+  fsfu: 600 / 1304,
+}
 const shots = (app: string, alts: string[]): Screenshot[] =>
-  alts.map((alt, i) => ({ src: shotFiles[`../assets/img/shot-${app}-${i + 1}.webp`], alt }))
+  alts.map((alt, i) => ({ src: shotFiles[`../assets/img/shot-${app}-${i + 1}.webp`], alt, ratio: SHOT_RATIO[app] }))
 
 /**
  * Single source of truth for the site.
@@ -273,7 +284,7 @@ export const projects: Project[] = [
       'Catch photos with time and approval status',
       'Catch photo with GPS and timestamp overlay',
     ]),
-    links: [{ label: 'App Store', url: 'https://apps.apple.com/ua/app/%D1%84%D1%80%D1%81%D1%83/id6624305618' }],
+    links: [{ label: 'App Store', url: 'https://apps.apple.com/ua/app/fsfu/id6624305618' }],
   },
 ]
 
@@ -288,7 +299,7 @@ export const dock: LinkApp[] = [
     kind: 'link',
     id: 'linkedin',
     name: 'LinkedIn',
-    icon: { glyph: 'linkedin', from: '#3b82f6', to: '#1d4ed8' },
+    icon: { glyph: 'linkedin', from: '#0a66c2', to: '#004182', image: iconLinkedin },
     url: 'https://www.linkedin.com/in/leonid-shevchenko-0a4241b1/',
     badge: 1,
   },
@@ -296,21 +307,21 @@ export const dock: LinkApp[] = [
     kind: 'link',
     id: 'github',
     name: 'GitHub',
-    icon: { glyph: 'github', from: '#4b5563', to: '#111827' },
+    icon: { glyph: 'github', from: '#24292f', to: '#0d1117', image: iconGithub },
     url: 'https://github.com/Kaktotaks',
   },
   {
     kind: 'link',
     id: 'mail',
     name: 'Mail',
-    icon: { glyph: 'mail', from: '#7dd3fc', to: '#2563eb' },
+    icon: { glyph: 'mail', from: '#ea4335', to: '#c5221f', image: iconGmail },
     url: `mailto:${profile.email}`,
   },
   {
     kind: 'link',
     id: 'instagram',
     name: 'Instagram',
-    icon: { glyph: 'instagram', from: '#f59e0b', to: '#be185d' },
+    icon: { glyph: 'instagram', from: '#f58529', to: '#c13584', image: iconInstagram },
     url: 'https://www.instagram.com/kaktotaks/',
   },
 ]

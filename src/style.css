@@ -12,6 +12,10 @@
   /* App sheets: a frosted pane over the blurred home screen */
   --sheet: rgb(246 246 250 / 0.62);
   --sheet-solid: rgb(242 242 247 / 0.96);
+  --card-fill: rgb(120 120 128 / 0.1);
+  --skeleton-base: rgb(120 120 128 / 0.14);
+  --skeleton-shape: rgb(120 120 128 / 0.16);
+  --skeleton-sheen: rgb(255 255 255 / 0.55);
 
   /* Glass on top of sheets (cards, buttons, chips) */
   --glass: rgb(255 255 255 / 0.58);
@@ -41,6 +45,11 @@
 
     --sheet: rgb(16 16 22 / 0.55);
     --sheet-solid: rgb(22 22 28 / 0.96);
+    --card-fill: rgb(255 255 255 / 0.08);
+    --card-fill: rgb(255 255 255 / 0.08);
+  --skeleton-base: rgb(255 255 255 / 0.07);
+    --skeleton-shape: rgb(255 255 255 / 0.08);
+    --skeleton-sheen: rgb(255 255 255 / 0.12);
     --glass: rgb(255 255 255 / 0.07);
     --glass-strong: rgb(255 255 255 / 0.12);
     --glass-edge: rgb(255 255 255 / 0.22);
@@ -61,6 +70,9 @@
 
   --sheet: rgb(16 16 22 / 0.55);
   --sheet-solid: rgb(22 22 28 / 0.96);
+  --skeleton-base: rgb(255 255 255 / 0.07);
+  --skeleton-shape: rgb(255 255 255 / 0.08);
+  --skeleton-sheen: rgb(255 255 255 / 0.12);
   --glass: rgb(255 255 255 / 0.07);
   --glass-strong: rgb(255 255 255 / 0.12);
   --glass-edge: rgb(255 255 255 / 0.22);

@@ -7,6 +7,7 @@ import NotificationCenter from './components/NotificationCenter.vue'
 import Shade from './components/Shade.vue'
 import Dock from './components/Dock.vue'
 import LinkedInWidget from './components/LinkedInWidget.vue'
+import MapWidget from './components/MapWidget.vue'
 import LockScreen from './components/LockScreen.vue'
 import StatusBar from './components/StatusBar.vue'
 import Wallpaper from './components/Wallpaper.vue'
@@ -186,6 +187,11 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
               :url="dock.find((d) => d.id === 'linkedin')!.url"
             />
             <AppIcon v-for="app in homeApps" :key="app.id" :app="app" @open="launch" />
+            <MapWidget
+              place="Kyiv, Ukraine"
+              detail="Based here · Kyiv time"
+              url="https://www.openstreetmap.org/?mlat=50.4501&mlon=30.5234#map=14/50.4501/30.5234"
+            />
           </nav>
 
           <div class="dock-wrap">
