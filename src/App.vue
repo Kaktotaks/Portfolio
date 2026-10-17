@@ -2,7 +2,6 @@
 import { nextTick, onMounted, onUnmounted, ref, shallowRef } from 'vue'
 import AppIcon from './components/AppIcon.vue'
 import AppWindow from './components/AppWindow.vue'
-import Avatar from './components/Avatar.vue'
 import ControlCenter from './components/ControlCenter.vue'
 import NotificationCenter from './components/NotificationCenter.vue'
 import Shade from './components/Shade.vue'
@@ -18,7 +17,7 @@ import SkillsApp from './components/apps/SkillsApp.vue'
 import widgetPhoto from './assets/img/widget-photo.webp'
 import { useClock } from './composables/useClock'
 import { useDrag } from './composables/useDrag'
-import { dock, homeApps, linkedinWidget, notices, profile, projects } from './data/portfolio'
+import { dock, homeApps, linkedinWidget, notices, profile } from './data/portfolio'
 import type { HomeApp, Project, SystemApp } from './data/types'
 
 type OpenableApp = Project | SystemApp
@@ -161,27 +160,16 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
         <div class="home" :class="{ receded: openApp, locked }" :inert="!!openApp || locked">
           <h1 class="visually-hidden">{{ profile.name }} — {{ profile.title }}</h1>
 
-          <section class="widget glass-clear" aria-label="Introduction">
-            <div class="widget-avatar"><Avatar /></div>
-            <div class="widget-text">
-              <p class="widget-name">{{ profile.name }}</p>
-              <p class="widget-title">{{ profile.title }}</p>
-            </div>
-          </section>
-
           <nav class="grid" aria-label="Projects and info">
-            <template v-for="(app, i) in homeApps" :key="app.id">
-              <AppIcon :app="app" @open="launch" />
-              <!-- Widget sits after the projects; the grid flows the system apps around it -->
-              <LinkedInWidget
-                v-if="i === projects.length - 1"
-                :name="profile.name"
-                :summary="linkedinWidget.summary"
-                :footer="linkedinWidget.footer"
-                :photo="widgetPhoto"
-                :url="dock.find((d) => d.id === 'linkedin')!.url"
-              />
-            </template>
+            <!-- Small widget top-left, apps flow around it — like an iPhone home screen -->
+            <LinkedInWidget
+              :name="profile.name"
+              :summary="linkedinWidget.summary"
+              :footer="linkedinWidget.footer"
+              :photo="widgetPhoto"
+              :url="dock.find((d) => d.id === 'linkedin')!.url"
+            />
+            <AppIcon v-for="app in homeApps" :key="app.id" :app="app" @open="launch" />
           </nav>
 
           <div class="dock-wrap">
@@ -304,50 +292,8 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
   transform: scale(1.08);
 }
 
-.widget {
-  align-self: stretch;
-  padding: 18px 20px;
-  border-radius: 28px;
-  color: #fff;
-  text-shadow: 0 1px 2px rgb(0 0 0 / 0.15);
-}
-
-.widget {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.widget > * {
-  position: relative;
-  z-index: 2;
-}
-
-.widget-avatar {
-  flex: none;
-  width: 78px;
-  height: 78px;
-  margin: -6px 0 -6px -6px;
-}
-
-.widget p {
-  margin: 0;
-}
-
-.widget-name {
-  font-size: 21px;
-  white-space: nowrap;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
-
-.widget-title {
-  font-size: 15px;
-  opacity: 0.9;
-}
-
 .grid {
-  margin-top: 28px;
+  margin-top: 10px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-auto-flow: row dense;
@@ -360,32 +306,10 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
   margin-top: auto;
 }
 
-/* iPad layout: widget on the left, wider grid on the right */
+/* iPad layout: wider grid, more columns */
 @container (min-width: 760px) {
   .home {
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    grid-template-rows: 1fr auto;
-    column-gap: 48px;
     padding: 64px 56px 22px;
-  }
-
-  .widget {
-    align-self: start;
-    padding: 24px;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .widget-avatar {
-    width: 140px;
-    height: 140px;
-    margin: 0 auto 4px;
-  }
-
-  .widget-name {
-    font-size: 26px;
-    white-space: normal;
   }
 
   .grid {
@@ -395,8 +319,7 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
   }
 
   .dock-wrap {
-    grid-column: 1 / -1;
-    justify-self: center;
+    align-self: center;
     width: min(100%, 460px);
   }
 }
