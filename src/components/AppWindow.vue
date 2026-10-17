@@ -13,7 +13,6 @@ const emit = defineEmits<{ closed: [] }>()
 
 const root = ref<HTMLElement>()
 const closeButton = ref<HTMLButtonElement>()
-const style = ref<Record<string, string>>({})
 const iconOpacity = ref(1)
 let closing = false
 
@@ -23,6 +22,17 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 let usingKeyboard = false
 window.addEventListener('keydown', () => (usingKeyboard = true), { capture: true })
 window.addEventListener('pointerdown', () => (usingKeyboard = false), { capture: true })
+/**
+ * Write geometry straight to the element. Going through Vue's reactive :style would re-render
+ * the component on every frame of a drag, which is what made gestures stutter on phones.
+ */
+const STYLE_KEYS = ['transform', 'transformOrigin', 'borderRadius', 'transition', 'opacity', 'boxShadow'] as const
+function apply(next: Partial<Record<(typeof STYLE_KEYS)[number], string>>) {
+  const el = root.value
+  if (!el) return
+  for (const k of STYLE_KEYS) el.style[k] = next[k] ?? ''
+}
+
 const DURATION = 420
 const EASE = 'cubic-bezier(0.32, 0.72, 0, 1)'
 
@@ -42,18 +52,18 @@ function collapsedTransform(): Record<string, string> {
 }
 
 onMounted(async () => {
-  style.value = { ...collapsedTransform(), transition: 'none' }
+  apply({ ...collapsedTransform(), transition: 'none' })
   iconOpacity.value = 1
   await nextTick()
   // Force a frame so the browser registers the collapsed state before animating out
   requestAnimationFrame(() =>
     requestAnimationFrame(() => {
-      style.value = {
+      apply({
         transform: 'none',
         borderRadius: '0px',
         opacity: '1',
         transition: reduceMotion ? 'opacity 200ms ease' : `transform ${DURATION}ms ${EASE}, border-radius ${DURATION}ms ${EASE}`,
-      }
+      })
       iconOpacity.value = 0
       if (usingKeyboard) closeButton.value?.focus({ preventScroll: true })
     }),
@@ -72,10 +82,10 @@ function close() {
   closing = true
   const content = root.value?.querySelector('.content') as HTMLElement | null
   if (content) content.scrollTop = 0
-  style.value = {
+  apply({
     ...collapsedTransform(),
     transition: reduceMotion ? 'opacity 160ms ease' : `transform ${DURATION - 60}ms ${EASE}, border-radius ${DURATION - 60}ms ${EASE}`,
-  }
+  })
   iconOpacity.value = 1
   window.setTimeout(() => emit('closed'), reduceMotion ? 160 : DURATION - 60)
 }
@@ -91,21 +101,29 @@ function screenSize() {
 }
 
 // Drag up from the home indicator: the app shrinks into a card that follows the finger
+function setDragging(on: boolean) {
+  root.value?.classList.toggle('dragging', on)
+}
+
 const homeDrag = useDrag({
-  start: () => !closing,
+  start: () => {
+    if (closing) return false
+    setDragging(true)
+  },
   move: ({ dx, dy }) => {
     const { h } = screenSize()
     const up = Math.max(0, -dy)
     const p = Math.min(1, up / (h * 0.55))
     const scale = 1 - p * 0.5
-    style.value = {
+    apply({
       transform: `translate(${dx * 0.6}px, ${-up * 0.7}px) scale(${scale})`,
       transformOrigin: '50% 100%',
       borderRadius: CARD_RADIUS,
       transition: 'none',
-    }
+    })
   },
   end: ({ dy, vy, tap }) => {
+    setDragging(false)
     if (tap) return close()
     if (-dy > 90 || vy < -0.6) return close()
     springBack()
@@ -114,39 +132,43 @@ const homeDrag = useDrag({
 
 // Swipe from the left edge: the app slides right to reveal the home screen (iOS "back")
 const edgeDrag = useDrag({
-  start: () => !closing,
+  start: () => {
+    if (closing) return false
+    setDragging(true)
+  },
   move: ({ dx }) => {
-    style.value = {
+    apply({
       transform: `translateX(${Math.max(0, dx)}px)`,
       borderRadius: '0px',
       boxShadow: '-12px 0 40px rgb(0 0 0 / 0.25)',
       transition: 'none',
-    }
+    })
   },
   end: ({ dx, vx }) => {
+    setDragging(false)
     const { w } = screenSize()
     if (dx > w * 0.33 || vx > 0.5) {
       closing = true
-      style.value = { transform: `translateX(${w}px)`, transition: `transform 280ms ${EASE}` }
+      apply({ transform: `translateX(${w}px)`, transition: `transform 280ms ${EASE}` })
       window.setTimeout(() => emit('closed'), 280)
     } else springBack()
   },
 })
 
 function springBack() {
-  style.value = {
+  apply({
     transform: 'none',
     transformOrigin: '50% 100%',
     borderRadius: '0px',
     transition: `transform 380ms ${SPRING}, border-radius 380ms ${EASE}`,
-  }
+  })
 }
 
 defineExpose({ close })
 </script>
 
 <template>
-  <div ref="root" class="window" role="dialog" aria-modal="true" :aria-label="title" :style="style">
+  <div ref="root" class="window" role="dialog" aria-modal="true" :aria-label="title">
     <!-- Icon face shown while the window is small, cross-fades into the app -->
     <div
       class="icon-face"

@@ -11,6 +11,7 @@
 
   /* App sheets: a frosted pane over the blurred home screen */
   --sheet: rgb(246 246 250 / 0.62);
+  --sheet-solid: rgb(242 242 247 / 0.96);
 
   /* Glass on top of sheets (cards, buttons, chips) */
   --glass: rgb(255 255 255 / 0.58);
@@ -39,6 +40,7 @@
     --tint: #3b9bff;
 
     --sheet: rgb(16 16 22 / 0.55);
+    --sheet-solid: rgb(22 22 28 / 0.96);
     --glass: rgb(255 255 255 / 0.07);
     --glass-strong: rgb(255 255 255 / 0.12);
     --glass-edge: rgb(255 255 255 / 0.22);
@@ -58,6 +60,7 @@
   --tint: #3b9bff;
 
   --sheet: rgb(16 16 22 / 0.55);
+  --sheet-solid: rgb(22 22 28 / 0.96);
   --glass: rgb(255 255 255 / 0.07);
   --glass-strong: rgb(255 255 255 / 0.12);
   --glass-edge: rgb(255 255 255 / 0.22);
@@ -232,6 +235,44 @@ body {
   text-align: center;
   font-size: 13px;
   color: var(--ink-secondary);
+}
+
+/*
+ * Phones and tablets: backdrop blur is the most expensive thing on the page, and nested blurs
+ * multiply the cost. Glass that already sits on a frosted sheet or shade keeps its look with a
+ * plain translucent fill, and a sheet being dragged drops its blur until it settles.
+ */
+@media (pointer: coarse) {
+  /* doubled class beats the component's scoped selector */
+  .window.window {
+    -webkit-backdrop-filter: blur(26px) saturate(1.6);
+    backdrop-filter: blur(26px) saturate(1.6);
+  }
+
+  .window .glass,
+  .shade .glass-clear {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .window .glass {
+    background: var(--glass-strong);
+  }
+
+  .shade .glass-clear {
+    background: rgb(255 255 255 / 0.16);
+  }
+
+  .window.dragging {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    background: var(--sheet-solid) !important;
+  }
+
+  .shade .frost {
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

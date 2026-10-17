@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, shallowRef } from 'vue'
+import { nextTick, onMounted, onUnmounted, ref, shallowRef } from 'vue'
 import AppIcon from './components/AppIcon.vue'
 import AppWindow from './components/AppWindow.vue'
 import Avatar from './components/Avatar.vue'
@@ -79,57 +79,46 @@ const windowRef = ref<InstanceType<typeof AppWindow>>()
 
 type ShadeKind = 'notifications' | 'control'
 const shadeKind = ref<ShadeKind | null>(null)
-const shadeP = ref(0)
-const shadeDragging = ref(false)
+const shadeRef = ref<InstanceType<typeof Shade>>()
 const screenRef = ref<HTMLElement>()
-let closeTimer: number | undefined
 
 function screenHeight() {
   return screenRef.value?.getBoundingClientRect().height ?? window.innerHeight
 }
 
-function openShade(kind: ShadeKind) {
-  window.clearTimeout(closeTimer)
-  shadeKind.value = kind
-  shadeDragging.value = false
-  // Next frame, so the panel mounts at 0 and transitions in
-  requestAnimationFrame(() => (shadeP.value = 1))
+/** Mount the shade (if needed) and run `fn` once it exists. */
+async function withShade(kind: ShadeKind, fn: (s: InstanceType<typeof Shade>) => void) {
+  if (shadeKind.value !== kind) {
+    shadeKind.value = kind
+    await nextTick()
+  }
+  if (shadeRef.value) fn(shadeRef.value)
 }
 
-function settleShade(open: boolean) {
-  shadeDragging.value = false
-  shadeP.value = open ? 1 : 0
-  if (!open) closeTimer = window.setTimeout(() => (shadeKind.value = null), 420)
+function openShade(kind: ShadeKind) {
+  // Next frame, so the freshly mounted panel animates in from closed
+  withShade(kind, (s) => requestAnimationFrame(() => s.settle(true)))
 }
 
 /** Pull down from the left or right half of the status bar, like iOS. */
 function pullFrom(kind: ShadeKind) {
   return useDrag({
-    start: () => {
-      if (shadeKind.value && shadeP.value > 0) return false
-      window.clearTimeout(closeTimer)
-    },
-    move: ({ dy }) => {
-      shadeKind.value = kind
-      shadeDragging.value = true
-      shadeP.value = Math.max(0, Math.min(1, dy / (screenHeight() * 0.6)))
+    start: () => !(shadeKind.value && shadeRef.value?.isOpen()),
+    move: ({ dy, tap }) => {
+      if (tap) return
+      withShade(kind, (s) => s.drag(dy / (screenHeight() * 0.6)))
     },
     end: ({ dy, vy, tap }) => {
-      if (tap) return
-      settleShade(dy > screenHeight() * 0.18 || vy > 0.5)
+      if (tap || !shadeKind.value) return
+      shadeRef.value?.settle(dy > screenHeight() * 0.18 || vy > 0.5)
     },
   })
 }
 const pullNotifications = pullFrom('notifications')
 const pullControl = pullFrom('control')
 
-function onShadeDrag(p: number) {
-  shadeDragging.value = true
-  shadeP.value = p
-}
-
 function openFromNotification(appId: string) {
-  settleShade(false)
+  shadeRef.value?.settle(false)
   const app = homeApps.find((a) => a.id === appId)
   if (!app || app.kind === 'link') return
   locked.value = false
@@ -202,14 +191,7 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
           <SkillsApp v-else-if="openApp.id === 'settings'" :skills="profile.skills" />
         </AppWindow>
 
-        <Shade
-          v-if="shadeKind"
-          :kind="shadeKind"
-          :progress="shadeP"
-          :dragging="shadeDragging"
-          @drag="onShadeDrag"
-          @release="settleShade"
-        >
+        <Shade v-if="shadeKind" ref="shadeRef" :key="shadeKind" :kind="shadeKind" @closed="shadeKind = null">
           <NotificationCenter
             v-if="shadeKind === 'notifications'"
             :time="time"

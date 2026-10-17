@@ -36,6 +36,9 @@ export function useDrag(h: Handlers) {
   let startX = 0
   let startY = 0
   let samples: { t: number; x: number; y: number }[] = []
+  // Coalesce moves to one per animation frame: touch screens fire faster than they paint
+  let frame = 0
+  let pending: { s: DragState; e: PointerEvent } | null = null
 
   function state(e: PointerEvent): DragState {
     const dx = e.clientX - startX
@@ -82,12 +85,21 @@ export function useDrag(h: Handlers) {
       captured = true
       el?.setPointerCapture(e.pointerId)
     }
-    h.move?.(s, e)
+    pending = { s, e }
+    if (!frame)
+      frame = requestAnimationFrame(() => {
+        frame = 0
+        if (pending && active) h.move?.(pending.s, pending.e)
+        pending = null
+      })
   }
 
   function onPointerup(e: PointerEvent) {
     if (!active) return
     active = false
+    cancelAnimationFrame(frame)
+    frame = 0
+    pending = null
     h.end?.(state(e), e)
   }
 
