@@ -134,7 +134,7 @@ export const projects: Project[] = [
       'Testing and time-to-market cut ~3× with the internal configuration tool.',
       'Proposed A/B hypotheses from funnel data that tripled revenue for a target user cohort.',
       'Onboarding and paywall pages are built from server-driven configs via BaaS (Firebase / Firestore) — product and marketing launch new flows without an App Store release.',
-      '100+ A/B tests set up or co-managed; experimentation set up from scratch and product teams trained to run it.',
+      'Co-managed 100+ A/B tests.',
     ],
     metrics: [
       { value: '1M+', label: 'users' },
@@ -366,7 +366,7 @@ export interface Notice {
 
 export const notices: Notice[] = [
   { appId: 'about', title: 'Open to new roles', body: 'Senior iOS · Remote. Tap for contacts.', when: 'now' },
-  { appId: 'liven', title: '1M+ users', body: 'Owned attribution, paywalls and the A/B experimentation stack.', when: '2025' },
+  { appId: 'liven', title: '1M+ users', body: 'Owned attribution and paywalls; co-managed 100+ A/B tests.', when: '2025' },
   { appId: 'lifecell', title: 'Crash-free 99.9%', body: 'Up from 94% on an app with 10M+ users.', when: '2024' },
   { appId: 'fsfu', title: 'Shipped solo', body: 'Offline-first SwiftUI app, from first screen to App Store.', when: 'ongoing' },
   { appId: 'telquel', title: 'Media app', body: 'In-App Purchases, WKWebView and PDFKit at Drum’N’Code.', when: '2022' },

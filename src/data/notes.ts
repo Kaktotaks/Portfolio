@@ -51,7 +51,7 @@ export const folders: Folder[] = [
           { t: 'li', text: 'Your favourite variant will lose. Run the test anyway.' },
           { t: 'li', text: 'A hypothesis from funnel data beats a hypothesis from vibes.' },
           { t: 'li', text: 'GrowthBook flag first, opinion second.' },
-          { t: 'li', text: 'Teach the team to run experiments themselves — then go and build the next thing.' },
+          { t: 'li', text: 'Make experiments cheap to run, so the team runs more of them.' },
         ],
       },
       {
