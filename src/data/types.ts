@@ -19,6 +19,8 @@ export interface IconStyle {
   to: string
   /** Glyph colour, defaults to white */
   ink?: string
+  /** Real app icon artwork; when set it replaces the gradient + glyph */
+  image?: string
 }
 
 export interface Metric {
@@ -45,6 +47,9 @@ export interface Project {
   company: string
   role: string
   period: string
+  platforms: string[]
+  /** Case study not written yet — the app opens to a "coming soon" screen */
+  draft?: boolean
   tagline: string
   summary: string
   highlights: string[]

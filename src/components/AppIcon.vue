@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { HomeApp } from '../data/types'
-import Glyph from './Glyph.vue'
+import IconTile from './IconTile.vue'
 
 const props = withDefaults(defineProps<{ app: HomeApp; showLabel?: boolean }>(), { showLabel: true })
 const emit = defineEmits<{ open: [app: HomeApp, origin: DOMRect] }>()
 
 function onClick(event: MouseEvent) {
-  const tile = (event.currentTarget as HTMLElement).querySelector('.tile') as HTMLElement
+  const tile = (event.currentTarget as HTMLElement).querySelector('.icon-tile') as HTMLElement
   emit('open', props.app, tile.getBoundingClientRect())
 }
 </script>
@@ -20,15 +20,11 @@ function onClick(event: MouseEvent) {
     rel="noopener noreferrer"
     :aria-label="`${app.name} (opens externally)`"
   >
-    <span class="tile" :style="{ '--from': app.icon.from, '--to': app.icon.to, color: app.icon.ink ?? '#fff' }">
-      <Glyph :name="app.icon.glyph" />
-    </span>
+    <IconTile :icon="app.icon" />
     <span v-if="showLabel" class="label">{{ app.name }}</span>
   </a>
   <button v-else type="button" class="app-icon" :aria-label="`Open ${app.name}`" @click="onClick">
-    <span class="tile" :style="{ '--from': app.icon.from, '--to': app.icon.to, color: app.icon.ink ?? '#fff' }">
-      <Glyph :name="app.icon.glyph" />
-    </span>
+    <IconTile :icon="app.icon" />
     <span v-if="showLabel" class="label">{{ app.name }}</span>
   </button>
 </template>
@@ -48,38 +44,26 @@ function onClick(event: MouseEvent) {
   -webkit-tap-highlight-color: transparent;
 }
 
-.tile {
-  width: var(--icon-size);
-  height: var(--icon-size);
-  border-radius: calc(var(--icon-size) * 0.225);
-  background: linear-gradient(160deg, var(--from), var(--to));
-  display: grid;
-  place-items: center;
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.25),
-    0 6px 16px rgb(0 0 0 / 0.25);
-  transition: transform 160ms ease, filter 160ms ease;
+.app-icon :deep(.icon-tile) {
+  transition:
+    transform 220ms cubic-bezier(0.32, 0.72, 0, 1),
+    filter 160ms ease;
 }
 
-.tile svg {
-  width: 52%;
-  height: 52%;
+.app-icon:hover :deep(.icon-tile) {
+  transform: translateY(-2px) scale(1.03);
 }
 
-.app-icon:hover .tile {
-  transform: translateY(-2px);
-}
-
-.app-icon:active .tile {
-  transform: scale(0.92);
-  filter: brightness(0.85);
+.app-icon:active :deep(.icon-tile) {
+  transform: scale(0.9);
+  filter: brightness(0.8);
 }
 
 .app-icon:focus-visible {
   outline: none;
 }
 
-.app-icon:focus-visible .tile {
+.app-icon:focus-visible :deep(.icon-tile) {
   outline: 3px solid rgb(255 255 255 / 0.9);
   outline-offset: 3px;
 }
@@ -89,8 +73,8 @@ function onClick(event: MouseEvent) {
   font-weight: 500;
   letter-spacing: 0.01em;
   color: #fff;
-  text-shadow: 0 1px 3px rgb(0 0 0 / 0.45);
-  max-width: calc(var(--icon-size) + 20px);
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.5);
+  max-width: calc(var(--icon-size) + 22px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

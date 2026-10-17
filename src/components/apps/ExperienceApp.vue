@@ -5,12 +5,11 @@ defineProps<{ experience: Role[] }>()
 </script>
 
 <template>
-  <div class="paper">
   <article class="page">
     <h1>Experience</h1>
     <p class="lead">5+ years building iOS products — startups, product companies, outsourcing and outstaffing.</p>
 
-    <ol class="timeline">
+    <ol class="timeline group glass">
       <li v-for="role in experience" :key="role.company + role.period">
         <p class="period">{{ role.period }}</p>
         <h2>{{ role.title }}</h2>
@@ -19,14 +18,9 @@ defineProps<{ experience: Role[] }>()
       </li>
     </ol>
   </article>
-  </div>
 </template>
 
 <style scoped>
-.paper {
-  background: var(--paper);
-  min-height: 100%;
-}
 
 h1 {
   margin: 16px 0 4px;
@@ -41,11 +35,12 @@ h1 {
 .timeline {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 20px 18px 4px 22px;
 }
 
 .timeline li {
   position: relative;
+  z-index: 2;
   padding: 0 0 22px 22px;
   border-left: 2px solid var(--separator);
   margin-left: 6px;
@@ -63,7 +58,8 @@ h1 {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: #f59e0b;
+  background: linear-gradient(160deg, #fbbf24, #f97316);
+  box-shadow: 0 0 0 4px color-mix(in srgb, #f59e0b 22%, transparent);
 }
 
 .period {
@@ -83,7 +79,7 @@ h2 {
 .company {
   margin: 2px 0 0;
   font-weight: 500;
-  color: #b45309;
+  color: var(--tint);
 }
 
 .note {

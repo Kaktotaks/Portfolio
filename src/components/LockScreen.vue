@@ -40,7 +40,7 @@ function onPointerUp() {
       <p class="where">{{ location }}</p>
     </div>
 
-    <div class="notification">
+    <div class="notification glass-clear">
       <img class="avatar" :src="photo" alt="" width="38" height="38" />
       <div>
         <p class="n-title">{{ name }}</p>
@@ -65,7 +65,6 @@ function onPointerUp() {
   align-items: center;
   padding: 72px 20px 16px;
   color: #fff;
-  background: var(--wallpaper);
   touch-action: none;
   user-select: none;
   cursor: grab;
@@ -104,17 +103,19 @@ function onPointerUp() {
   gap: 12px;
   align-items: center;
   padding: 12px 14px;
-  border-radius: 20px;
-  background: rgb(255 255 255 / 0.16);
-  backdrop-filter: blur(24px) saturate(1.4);
-  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border-radius: 26px;
+}
+
+.notification > * {
+  position: relative;
+  z-index: 2;
 }
 
 .avatar {
   flex: none;
   width: 38px;
   height: 38px;
-  border-radius: 10px;
+  border-radius: 50%;
   object-fit: cover;
 }
 

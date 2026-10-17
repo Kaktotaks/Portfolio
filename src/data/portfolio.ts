@@ -1,4 +1,7 @@
 import avatar from '../assets/img/avatar.webp'
+import iconLifecell from '../assets/img/icon-lifecell.webp'
+import iconLiven from '../assets/img/icon-liven.webp'
+import iconTelquel from '../assets/img/icon-telquel.webp'
 import lifecell1 from '../assets/img/lifecell-1.webp'
 import type { HomeApp, LinkApp, Profile, Project, SystemApp } from './types'
 
@@ -75,10 +78,11 @@ export const projects: Project[] = [
     kind: 'project',
     id: 'liven',
     name: 'Liven',
-    icon: { glyph: 'leaf', from: '#34d399', to: '#0f766e' },
+    icon: { glyph: 'leaf', from: '#6cc04a', to: '#2f7d1f', image: iconLiven },
     company: 'Liven (Skelar)',
     role: 'iOS / Product Engineer',
     period: '06.2025 — present',
+    platforms: ['iOS', 'Web'],
     tagline: 'Health & wellness app with 1M+ users',
     summary:
       'Product engineering across iOS and the web version: monetization, attribution and the experimentation ' +
@@ -95,16 +99,17 @@ export const projects: Project[] = [
       { value: '10+', label: 'paywall variants' },
     ],
     stack: ['Swift', 'SwiftUI', 'UIKit', 'TCA', 'Combine', 'GraphQL', 'GrowthBook', 'AppsFlyer', 'Vue 3', 'TypeScript'],
-    // TODO: add the App Store link if you're allowed to share it
+    links: [{ label: 'App Store', url: 'https://apps.apple.com/ua/app/liven-ai-life-coach/id6450840109' }],
   },
   {
     kind: 'project',
     id: 'lifecell',
     name: 'My lifecell',
-    icon: { glyph: 'signal', from: '#60a5fa', to: '#1e3a8a' },
+    icon: { glyph: 'signal', from: '#ffcc00', to: '#f2a900', image: iconLifecell },
     company: 'Intellias',
     role: 'Middle+ iOS Developer',
     period: '02.2023 — 03.2025',
+    platforms: ['iOS'],
     tagline: 'Self-care app of a top-3 Ukrainian mobile operator',
     summary:
       'Feature work, analytics and large-scale refactoring on an app used by millions. Also took part in hiring ' +
@@ -120,6 +125,25 @@ export const projects: Project[] = [
     ],
     stack: ['Swift', 'UIKit', 'MVVM+C', 'RxSwift', 'Combine', 'Crashlytics', 'Sentry'],
     screenshots: [{ src: lifecell1, alt: 'My lifecell home screen with tariff promo and account menu' }],
+    links: [{ label: 'App Store', url: 'https://apps.apple.com/ua/app/my-lifecell/id580080545' }],
+  },
+  {
+    kind: 'project',
+    id: 'telquel',
+    name: 'TelQuel',
+    icon: { glyph: 'doc', from: '#ef3b24', to: '#b91c1c', image: iconTelquel },
+    // TODO: fill in from Leonid — company, role, dates, highlights, stack
+    draft: true,
+    company: '',
+    role: '',
+    period: '',
+    platforms: ['iOS'],
+    tagline: 'News & magazine app of TelQuel Media',
+    summary: '',
+    highlights: [],
+    metrics: [],
+    stack: [],
+    links: [{ label: 'App Store', url: 'https://apps.apple.com/ua/app/telquel/id1504054422' }],
   },
   {
     kind: 'project',
@@ -129,6 +153,7 @@ export const projects: Project[] = [
     company: 'Fishing Sport Federation of Ukraine',
     role: 'Sole developer (volunteer)',
     period: '06.2021 — present',
+    platforms: ['iOS'],
     tagline: 'Official federation app, built solo from scratch',
     summary:
       'Designed, built and shipped the federation’s official iOS app on my own — from the first screen to App Store review.',
@@ -143,24 +168,6 @@ export const projects: Project[] = [
     stack: ['Swift', 'SwiftUI', 'Core Data'],
     // TODO: paste the App Store URL here
     links: [],
-  },
-  {
-    kind: 'project',
-    id: 'drumncode',
-    name: 'Client Apps',
-    icon: { glyph: 'doc', from: '#f472b6', to: '#7c2d12' },
-    company: "Drum'N'Code",
-    role: 'iOS Developer',
-    period: '10.2021 — 02.2023',
-    tagline: 'Outsourcing products for several clients',
-    summary: 'Worked directly with clients on several apps, from new features to legacy rescue.',
-    highlights: [
-      'WKWebView-based hybrid flows and In-App Purchases.',
-      'Document handling with PDFKit and FileManager.',
-      'Refactored legacy code across MVC, MVP and MVVM+C codebases.',
-    ],
-    metrics: [],
-    stack: ['Swift', 'UIKit', 'RxSwift', 'WKWebView', 'StoreKit', 'PDFKit'],
   },
 ]
 

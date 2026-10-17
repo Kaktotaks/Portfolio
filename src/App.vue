@@ -5,6 +5,7 @@ import AppWindow from './components/AppWindow.vue'
 import Dock from './components/Dock.vue'
 import LockScreen from './components/LockScreen.vue'
 import StatusBar from './components/StatusBar.vue'
+import Wallpaper from './components/Wallpaper.vue'
 import AboutApp from './components/apps/AboutApp.vue'
 import ExperienceApp from './components/apps/ExperienceApp.vue'
 import ProjectApp from './components/apps/ProjectApp.vue'
@@ -81,12 +82,13 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
   <main class="stage">
     <div class="device">
       <div class="screen">
+        <Wallpaper />
         <StatusBar :time="time" :dark="!!openApp" />
 
-        <div class="home" :class="{ receded: openApp }" :inert="!!openApp || locked">
+        <div class="home" :class="{ receded: openApp, locked }" :inert="!!openApp || locked">
           <h1 class="visually-hidden">{{ profile.name }} — {{ profile.title }}</h1>
 
-          <section class="widget" aria-label="Introduction">
+          <section class="widget glass-clear" aria-label="Introduction">
             <p class="widget-name">{{ profile.name }}</p>
             <p class="widget-title">{{ profile.title }}</p>
             <p class="widget-foot">
@@ -155,7 +157,7 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: var(--wallpaper);
+  background: #0d1b3d;
   container-type: inline-size;
 }
 
@@ -186,23 +188,27 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
   flex-direction: column;
   padding: 56px 20px 18px;
   transition:
-    transform 420ms cubic-bezier(0.32, 0.72, 0, 1),
-    filter 420ms ease;
+    transform 520ms cubic-bezier(0.32, 0.72, 0, 1),
+    filter 420ms ease,
+    opacity 420ms ease;
 }
 
 .home.receded {
-  transform: scale(0.92);
-  filter: blur(6px) brightness(0.8);
+  transform: scale(0.94);
+}
+
+/* While locked the home screen waits slightly enlarged and invisible, then settles in on unlock */
+.home.locked {
+  opacity: 0;
+  transform: scale(1.08);
 }
 
 .widget {
   align-self: stretch;
   padding: 18px 20px;
-  border-radius: 24px;
+  border-radius: 28px;
   color: #fff;
-  background: rgb(255 255 255 / 0.16);
-  backdrop-filter: blur(24px) saturate(1.4);
-  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.15);
 }
 
 .widget p {

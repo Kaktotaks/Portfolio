@@ -84,15 +84,15 @@ defineExpose({ close })
       :style="{ '--from': icon.from, '--to': icon.to, color: icon.ink ?? '#fff', opacity: iconOpacity }"
       aria-hidden="true"
     >
-      <Glyph :name="icon.glyph" />
+      <img v-if="icon.image" :src="icon.image" alt="" />
+      <Glyph v-else :name="icon.glyph" />
     </div>
 
     <header class="nav">
-      <button ref="closeButton" type="button" class="back" @click="close">
-        <svg viewBox="0 0 12 20" width="11" height="18" aria-hidden="true"><path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
-        Home
+      <button ref="closeButton" type="button" class="back glass" aria-label="Back to home" @click="close">
+        <svg viewBox="0 0 12 20" width="10" height="17" aria-hidden="true"><path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
       </button>
-      <span class="nav-title">{{ title }}</span>
+      <span class="nav-title glass">{{ title }}</span>
       <span class="spacer" />
     </header>
 
@@ -113,7 +113,9 @@ defineExpose({ close })
   z-index: 20;
   display: flex;
   flex-direction: column;
-  background: var(--surface);
+  background: var(--sheet);
+  -webkit-backdrop-filter: blur(48px) saturate(1.9);
+  backdrop-filter: blur(48px) saturate(1.9);
   color: var(--ink);
   transform-origin: 0 0;
   overflow: hidden;
@@ -123,12 +125,18 @@ defineExpose({ close })
 .icon-face {
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 5;
   display: grid;
   place-items: center;
-  background: linear-gradient(160deg, var(--from), var(--to));
+  background: linear-gradient(165deg, var(--from), var(--to));
   pointer-events: none;
-  transition: opacity 220ms ease;
+  transition: opacity 240ms ease;
+}
+
+.icon-face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .icon-face svg {
@@ -136,42 +144,56 @@ defineExpose({ close })
   height: 52%;
 }
 
+/* Floating controls over content, with a soft scroll-edge fade instead of a solid bar */
 .nav {
-  flex: none;
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 3;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  padding: 52px 12px 10px;
-  background: color-mix(in srgb, var(--surface) 85%, transparent);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--separator);
-  position: relative;
-  z-index: 2;
+  padding: 50px 14px 18px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, var(--sheet) 30%, transparent);
+}
+
+.nav > * {
+  pointer-events: auto;
 }
 
 .back {
   justify-self: start;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: none;
+  width: 44px;
+  height: 44px;
   border: 0;
-  font: inherit;
-  font-size: 17px;
-  color: var(--tint);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--ink);
   cursor: pointer;
-  padding: 6px 8px;
-  border-radius: 8px;
+  transition: transform 180ms ease;
+}
+
+.back svg {
+  position: relative;
+  z-index: 2;
+  margin-left: -2px;
+}
+
+.back:active {
+  transform: scale(0.92);
 }
 
 .back:focus-visible {
   outline: 2px solid var(--tint);
+  outline-offset: 2px;
 }
 
 .nav-title {
+  padding: 9px 18px;
+  border-radius: 999px;
   font-weight: 600;
-  font-size: 17px;
+  font-size: 15px;
 }
 
 .content {
@@ -179,6 +201,7 @@ defineExpose({ close })
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
+  padding-top: 100px;
 }
 
 .home-bar {
@@ -186,7 +209,7 @@ defineExpose({ close })
   left: 50%;
   bottom: 6px;
   transform: translateX(-50%);
-  z-index: 2;
+  z-index: 3;
   padding: 10px 30px;
   background: none;
   border: 0;
@@ -199,7 +222,7 @@ defineExpose({ close })
   height: 5px;
   border-radius: 3px;
   background: var(--ink);
-  opacity: 0.85;
+  opacity: 0.8;
 }
 
 .home-bar:focus-visible {

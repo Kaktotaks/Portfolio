@@ -14,14 +14,14 @@ defineProps<{ profile: Profile; contacts: LinkApp[] }>()
     </header>
 
     <section class="section">
-      <div class="group">
+      <div class="group glass">
         <p class="prose">{{ profile.bio }}</p>
       </div>
     </section>
 
     <section class="section">
       <h2 class="section-title">Contact</h2>
-      <ul class="group list">
+      <ul class="group glass list">
         <li v-for="c in contacts" :key="c.id" class="row">
           <span class="row-label">{{ c.name }}</span>
           <a :href="c.url" :target="c.url.startsWith('mailto:') ? undefined : '_blank'" rel="noopener noreferrer">
@@ -33,7 +33,7 @@ defineProps<{ profile: Profile; contacts: LinkApp[] }>()
 
     <section class="section">
       <h2 class="section-title">Languages</h2>
-      <ul class="group list">
+      <ul class="group glass list">
         <li v-for="l in profile.languages" :key="l" class="row">{{ l }}</li>
       </ul>
     </section>
@@ -72,5 +72,10 @@ h1 {
 
 .row-label {
   flex: 1;
+}
+
+.group > * {
+  position: relative;
+  z-index: 2;
 }
 </style>

@@ -9,7 +9,7 @@ defineProps<{ skills: SkillGroup[] }>()
     <h1 class="title">Skills</h1>
     <section v-for="group in skills" :key="group.title" class="section">
       <h2 class="section-title">{{ group.title }}</h2>
-      <div class="group chips">
+      <div class="group glass chips">
         <span v-for="item in group.items" :key="item" class="chip">{{ item }}</span>
       </div>
     </section>
@@ -20,5 +20,10 @@ defineProps<{ skills: SkillGroup[] }>()
 .title {
   margin: 16px 0 0;
   font-size: 28px;
+}
+
+.group > * {
+  position: relative;
+  z-index: 2;
 }
 </style>

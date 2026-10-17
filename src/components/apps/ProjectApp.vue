@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Project } from '../../data/types'
-import Glyph from '../Glyph.vue'
+import IconTile from '../IconTile.vue'
 
 defineProps<{ project: Project }>()
 </script>
@@ -8,69 +8,89 @@ defineProps<{ project: Project }>()
 <template>
   <article class="page">
     <header class="hero">
-      <span class="hero-icon" :style="{ '--from': project.icon.from, '--to': project.icon.to, color: project.icon.ink ?? '#fff' }">
-        <Glyph :name="project.icon.glyph" />
-      </span>
-      <div>
+      <IconTile :icon="project.icon" size="92px" />
+      <div class="hero-text">
         <h1>{{ project.name }}</h1>
         <p class="tagline">{{ project.tagline }}</p>
-        <p class="meta">{{ project.role }} · {{ project.company }}</p>
+        <p class="platforms">
+          <span v-for="p in project.platforms" :key="p" class="platform">{{ p }}</span>
+        </p>
       </div>
     </header>
 
-    <dl v-if="project.metrics.length" class="metrics">
-      <div v-for="m in project.metrics" :key="m.label" class="metric">
-        <dt>{{ m.label }}</dt>
-        <dd>{{ m.value }}</dd>
-      </div>
-    </dl>
+    <a
+      v-if="project.links?.length"
+      class="primary glass"
+      :href="project.links[0].url"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <span>View on {{ project.links[0].label }}</span>
+      <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    </a>
 
-    <section v-if="project.screenshots?.length" class="section">
-      <h2 class="section-title">Preview</h2>
-      <div class="shots" tabindex="0" aria-label="Screenshots">
-        <img
-          v-for="shot in project.screenshots"
-          :key="shot.src"
-          class="shot"
-          :src="shot.src"
-          :alt="shot.alt"
-          loading="lazy"
-          decoding="async"
-        />
-      </div>
-    </section>
+    <template v-if="project.draft">
+      <section class="section">
+        <div class="group glass empty">
+          <p class="empty-title">Case study coming soon</p>
+          <p class="empty-body">The write-up for this project is in progress.</p>
+        </div>
+      </section>
+    </template>
 
-    <section class="section">
-      <h2 class="section-title">Overview</h2>
-      <div class="group">
-        <p class="prose">{{ project.summary }}</p>
-      </div>
-    </section>
+    <template v-else>
+      <dl v-if="project.metrics.length" class="metrics glass">
+        <div v-for="m in project.metrics" :key="m.label" class="metric">
+          <dt>{{ m.label }}</dt>
+          <dd>{{ m.value }}</dd>
+        </div>
+      </dl>
 
-    <section class="section">
-      <h2 class="section-title">What I did</h2>
-      <ul class="group list">
-        <li v-for="item in project.highlights" :key="item" class="row">{{ item }}</li>
-      </ul>
-    </section>
+      <section v-if="project.screenshots?.length" class="section">
+        <h2 class="section-title">Preview</h2>
+        <div class="shots" tabindex="0" aria-label="Screenshots">
+          <img
+            v-for="shot in project.screenshots"
+            :key="shot.src"
+            class="shot"
+            :src="shot.src"
+            :alt="shot.alt"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </section>
 
-    <section class="section">
-      <h2 class="section-title">Stack</h2>
-      <div class="group chips">
-        <span v-for="tech in project.stack" :key="tech" class="chip">{{ tech }}</span>
-      </div>
-    </section>
+      <section class="section">
+        <h2 class="section-title">Overview</h2>
+        <div class="group glass">
+          <p class="prose">{{ project.summary }}</p>
+        </div>
+      </section>
 
-    <section v-if="project.links?.length" class="section">
-      <h2 class="section-title">Links</h2>
-      <ul class="group list">
-        <li v-for="link in project.links" :key="link.url" class="row">
-          <a :href="link.url" target="_blank" rel="noopener noreferrer">{{ link.label }} ↗</a>
-        </li>
-      </ul>
-    </section>
+      <section class="section">
+        <h2 class="section-title">What I did</h2>
+        <ul class="group glass list">
+          <li v-for="item in project.highlights" :key="item" class="row">{{ item }}</li>
+        </ul>
+      </section>
 
-    <p class="footnote">{{ project.period }}</p>
+      <section class="section">
+        <h2 class="section-title">Stack</h2>
+        <div class="group glass chips">
+          <span v-for="tech in project.stack" :key="tech" class="chip">{{ tech }}</span>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Role</h2>
+        <ul class="group glass list">
+          <li class="row"><span class="k">Position</span><span class="v">{{ project.role }}</span></li>
+          <li class="row"><span class="k">Company</span><span class="v">{{ project.company }}</span></li>
+          <li class="row"><span class="k">Period</span><span class="v">{{ project.period }}</span></li>
+        </ul>
+      </section>
+    </template>
   </article>
 </template>
 
@@ -79,29 +99,17 @@ defineProps<{ project: Project }>()
   display: flex;
   gap: 16px;
   align-items: center;
-  padding: 20px 4px 8px;
+  padding: 8px 4px 4px;
 }
 
-.hero-icon {
-  flex: none;
-  width: 88px;
-  height: 88px;
-  border-radius: 20px;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(160deg, var(--from), var(--to));
-  box-shadow: 0 8px 20px rgb(0 0 0 / 0.18);
-}
-
-.hero-icon svg {
-  width: 50%;
-  height: 50%;
+.hero-text {
+  min-width: 0;
 }
 
 h1 {
   margin: 0;
-  font-size: 26px;
-  letter-spacing: -0.01em;
+  font-size: 28px;
+  letter-spacing: -0.02em;
 }
 
 .tagline {
@@ -110,31 +118,67 @@ h1 {
   font-size: 15px;
 }
 
-.meta {
-  margin: 6px 0 0;
-  font-size: 13px;
+.platforms {
+  display: flex;
+  gap: 6px;
+  margin: 8px 0 0;
+}
+
+.platform {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
   color: var(--tint);
-  font-weight: 500;
+  background: color-mix(in srgb, var(--tint) 14%, transparent);
+}
+
+.primary {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 18px;
+  border-radius: 999px;
+  font-weight: 600;
+  color: var(--tint);
+  text-decoration: none;
+  transition: transform 180ms ease;
+}
+
+.primary > * {
+  position: relative;
+  z-index: 2;
+}
+
+.primary:active {
+  transform: scale(0.97);
 }
 
 .metrics {
   display: flex;
-  margin: 12px 0 4px;
-  padding: 12px 0;
-  border-block: 1px solid var(--separator);
+  margin: 16px 0 0;
+  padding: 16px 0;
+  border-radius: 22px;
 }
 
 .metric {
+  position: relative;
+  z-index: 2;
   flex: 1;
   text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   padding: 0 6px;
 }
 
 .metric dd {
   order: -1;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .metric + .metric {
@@ -143,15 +187,10 @@ h1 {
 
 .metric dt {
   font-size: 11px;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--ink-secondary);
-}
-
-.metric dd {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 700;
 }
 
 .shots {
@@ -173,9 +212,43 @@ h1 {
   width: min(46%, 220px);
   aspect-ratio: 9 / 19.5;
   object-fit: cover;
-  border-radius: 18px;
-  border: 1px solid var(--separator);
-  background: var(--card);
+  border-radius: 24px;
+  box-shadow:
+    0 0 0 1px var(--glass-edge),
+    0 10px 30px rgb(0 0 0 / 0.18);
   scroll-snap-align: start;
+}
+
+.k {
+  color: var(--ink-secondary);
+  flex: none;
+  width: 84px;
+}
+
+.v {
+  font-weight: 500;
+}
+
+.empty {
+  padding: 28px 20px;
+  text-align: center;
+}
+
+.empty-title {
+  margin: 0;
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.empty-body {
+  margin: 4px 0 0;
+  color: var(--ink-secondary);
+}
+
+/* Content inside glass panes sits above the highlight layers */
+.group > *,
+.empty > * {
+  position: relative;
+  z-index: 2;
 }
 </style>

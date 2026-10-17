@@ -22,8 +22,16 @@ Everything the site shows lives in `src/data/portfolio.ts`:
 - `profile` — bio, skills, experience timeline, languages
 - `dock` — LinkedIn, GitHub, Mail, Instagram
 
-Add a project by adding one object to `projects`. Icons are gradient + glyph
-(`src/components/Glyph.vue`) — no third-party logos.
+Add a project by adding one object to `projects`. Project icons use the official
+App Store artwork (`src/assets/img/icon-*.webp`, set via `icon.image`); system apps
+use a gradient + glyph (`src/components/Glyph.vue`). Set `draft: true` to show a
+"coming soon" screen until a case study is written.
+
+## Glass material
+
+`.glass` (on app sheets) and `.glass-clear` (on the wallpaper) in `src/style.css`.
+Keep `backdrop-filter` values literal and put `-webkit-backdrop-filter` first —
+the CSS minifier drops the unprefixed property otherwise, which breaks the blur in Chrome.
 
 ## Deep links
 

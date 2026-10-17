@@ -6,7 +6,7 @@ defineProps<{ apps: LinkApp[] }>()
 </script>
 
 <template>
-  <nav class="dock" aria-label="Contacts">
+  <nav class="dock glass-clear" aria-label="Contacts">
     <AppIcon v-for="app in apps" :key="app.id" :app="app" :show-label="false" />
   </nav>
 </template>
@@ -17,9 +17,12 @@ defineProps<{ apps: LinkApp[] }>()
   justify-content: space-around;
   gap: 12px;
   padding: 14px 16px;
-  border-radius: 32px;
-  background: rgb(255 255 255 / 0.18);
-  backdrop-filter: blur(28px) saturate(1.5);
-  -webkit-backdrop-filter: blur(28px) saturate(1.5);
+  border-radius: 36px;
+}
+
+/* Keep icons above the glass highlight layers */
+.dock > :deep(*) {
+  position: relative;
+  z-index: 2;
 }
 </style>

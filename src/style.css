@@ -1,16 +1,28 @@
+/*
+ * Design tokens + the glass material.
+ * The wallpaper animates underneath, so every translucent surface picks up colour and motion —
+ * that is what sells the glass. Light/dark follow the system.
+ */
 :root {
-  --ink: #111114;
-  --ink-secondary: #6b6b73;
-  --surface: #f2f2f7;
-  --card: #ffffff;
-  --paper: #fffdf6;
-  --separator: rgb(60 60 67 / 0.18);
-  --tint: #0a84ff;
-  --wallpaper:
-    radial-gradient(120% 80% at 10% 0%, #ff8a5c 0%, transparent 55%),
-    radial-gradient(90% 70% at 100% 30%, #7c3aed 0%, transparent 60%),
-    radial-gradient(120% 90% at 30% 100%, #0ea5e9 0%, transparent 60%),
-    #1e1b4b;
+  --ink: #0b0b0f;
+  --ink-secondary: rgb(60 60 67 / 0.68);
+  --separator: rgb(60 60 67 / 0.16);
+  --tint: #0a7aff;
+
+  /* App sheets: a frosted pane over the blurred home screen */
+  --sheet: rgb(246 246 250 / 0.62);
+
+  /* Glass on top of sheets (cards, buttons, chips) */
+  --glass: rgb(255 255 255 / 0.58);
+  --glass-strong: rgb(255 255 255 / 0.72);
+  --glass-edge: rgb(255 255 255 / 0.85);
+  --glass-edge-low: rgb(255 255 255 / 0.25);
+  --glass-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px rgb(20 20 40 / 0.08);
+
+  /* Glass straight on the wallpaper (widget, dock, notifications) */
+  --clear: rgb(255 255 255 / 0.14);
+  --clear-edge: rgb(255 255 255 / 0.55);
+  --clear-edge-low: rgb(255 255 255 / 0.12);
 
   color-scheme: light dark;
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Segoe UI', Roboto, sans-serif;
@@ -21,12 +33,19 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --ink: #f5f5f7;
-    --ink-secondary: #a1a1aa;
-    --surface: #000000;
-    --card: #1c1c1e;
-    --paper: #1c1a14;
-    --separator: rgb(84 84 88 / 0.6);
-    --tint: #0a84ff;
+    --ink-secondary: rgb(235 235 245 / 0.62);
+    --separator: rgb(255 255 255 / 0.1);
+    --tint: #3b9bff;
+
+    --sheet: rgb(16 16 22 / 0.55);
+    --glass: rgb(255 255 255 / 0.07);
+    --glass-strong: rgb(255 255 255 / 0.12);
+    --glass-edge: rgb(255 255 255 / 0.22);
+    --glass-edge-low: rgb(255 255 255 / 0.04);
+    --glass-shadow: 0 1px 2px rgb(0 0 0 / 0.2), 0 10px 30px rgb(0 0 0 / 0.25);
+
+    --clear: rgb(255 255 255 / 0.1);
+    --clear-edge: rgb(255 255 255 / 0.4);
   }
 }
 
@@ -41,29 +60,94 @@ body {
   overflow: hidden;
 }
 
-/* Shared iOS "inset grouped" list styles used by the in-app pages */
+/*
+ * Glass material. Two layers on top of the blur:
+ *  - a hairline border that is bright on top and fades at the bottom (light hitting the edge)
+ *  - a soft specular sheen in the top-left corner
+ */
+.glass,
+.glass-clear {
+  position: relative;
+  isolation: isolate;
+  /* Literal values on purpose: the CSS minifier drops the unprefixed property when it holds a var() */
+  -webkit-backdrop-filter: blur(26px) saturate(1.8);
+  backdrop-filter: blur(26px) saturate(1.8);
+}
+
+.glass {
+  background: var(--glass);
+  box-shadow: var(--glass-shadow);
+  --edge-hi: var(--glass-edge);
+  --edge-lo: var(--glass-edge-low);
+}
+
+.glass-clear {
+  background: var(--clear);
+  box-shadow:
+    0 10px 30px rgb(0 0 0 / 0.18),
+    inset 0 0 20px rgb(255 255 255 / 0.06);
+  --edge-hi: var(--clear-edge);
+  --edge-lo: var(--clear-edge-low);
+}
+
+.glass::before,
+.glass-clear::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(170deg, var(--edge-hi), var(--edge-lo) 45%, var(--edge-lo) 70%, var(--edge-hi) 140%);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glass::after,
+.glass-clear::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(120% 80% at 0% 0%, rgb(255 255 255 / 0.22), transparent 55%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass {
+    background: var(--glass-strong);
+  }
+  .glass-clear {
+    background: rgb(40 40 60 / 0.75);
+  }
+}
+
+/* ---------- Shared content styles used inside the app sheets ---------- */
 .page {
-  padding: 8px 18px 56px;
+  padding: 8px 18px 64px;
   max-width: 720px;
   margin: 0 auto;
 }
 
 .section {
-  margin-top: 22px;
+  margin-top: 24px;
 }
 
 .section-title {
-  margin: 0 0 6px 14px;
+  margin: 0 0 8px 16px;
   font-size: 13px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   color: var(--ink-secondary);
 }
 
 .group {
-  background: var(--card);
-  border-radius: 14px;
+  border-radius: 22px;
   overflow: hidden;
 }
 
@@ -77,7 +161,7 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 16px;
+  padding: 13px 18px;
   line-height: 1.45;
 }
 
@@ -88,6 +172,7 @@ body {
 .row a {
   color: var(--tint);
   text-decoration: none;
+  font-weight: 500;
 }
 
 .row a:hover {
@@ -96,8 +181,8 @@ body {
 
 .prose {
   margin: 0;
-  padding: 14px 16px;
-  line-height: 1.5;
+  padding: 16px 18px;
+  line-height: 1.55;
 }
 
 .chips {
@@ -108,16 +193,19 @@ body {
 }
 
 .chip {
-  padding: 5px 11px;
+  padding: 6px 12px;
   border-radius: 999px;
   font-size: 13px;
   font-weight: 500;
-  background: color-mix(in srgb, var(--tint) 12%, transparent);
-  color: var(--tint);
+  color: var(--ink);
+  background: var(--glass-strong);
+  box-shadow:
+    inset 0 1px 0 var(--glass-edge),
+    0 1px 2px rgb(0 0 0 / 0.06);
 }
 
 .footnote {
-  margin: 20px 0 0;
+  margin: 22px 0 0;
   text-align: center;
   font-size: 13px;
   color: var(--ink-secondary);
