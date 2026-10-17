@@ -4,13 +4,13 @@ import wallpaper from '../assets/img/wallpaper.webp'
 
 <template>
   <!--
-    Original wallpaper in the spirit of iOS's flowing-ribbon wallpapers (not Apple artwork).
-    Source: src/assets/wallpaper.svg, pre-rendered to WebP so phones never re-run SVG blur filters.
+    Leonid's own photo, blurred ahead of time into the WebP (no live blur filter, so phones stay smooth).
     The slow drift is a single GPU-composited transform — effectively free.
   -->
   <div class="wallpaper" aria-hidden="true">
     <img :src="wallpaper" alt="" decoding="async" draggable="false" />
-    <span class="dim" />
+    <span class="legibility" />
+    <span class="dim wallpaper-dim" />
   </div>
 </template>
 
@@ -19,7 +19,7 @@ import wallpaper from '../assets/img/wallpaper.webp'
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: #1a1150;
+  background: #3d6fb8;
 }
 
 img {
@@ -35,11 +35,18 @@ img {
 
 @keyframes drift {
   from {
-    transform: translate3d(-2%, -1%, 0) scale(1);
+    transform: translate3d(-1%, -0.5%, 0) scale(1);
   }
   to {
-    transform: translate3d(2%, 1.5%, 0) scale(1.04);
+    transform: translate3d(1%, 0.8%, 0) scale(1.03);
   }
+}
+
+/* Keeps white labels readable over the bright sky and paving */
+.legibility {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgb(0 0 0 / 0.18), rgb(0 0 0 / 0.08) 40%, rgb(0 0 0 / 0.22));
 }
 
 /* iOS dims the wallpaper in dark mode */
@@ -51,15 +58,7 @@ img {
   transition: opacity 400ms ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  :global(:root:not([data-theme='light'])) .dim {
-    opacity: 0.28;
-  }
-}
-
-:global(:root[data-theme='dark']) .dim {
-  opacity: 0.28;
-}
+/* Dark-mode dimming lives in style.css (.wallpaper-dim): it depends on the root's theme */
 
 @media (prefers-reduced-motion: reduce) {
   img {

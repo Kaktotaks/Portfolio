@@ -245,7 +245,7 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: #0d1b3d;
+  background: #3d6fb8;
   container-type: inline-size;
 }
 
@@ -370,7 +370,8 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
   }
 
   .widget-name {
-    font-size: 30px;
+    font-size: 26px;
+    white-space: normal;
   }
 
   .grid {

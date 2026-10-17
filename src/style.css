@@ -79,6 +79,17 @@
   box-sizing: border-box;
 }
 
+/* iOS dims the wallpaper in dark mode */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .wallpaper-dim {
+    opacity: 0.3;
+  }
+}
+
+:root[data-theme='dark'] .wallpaper-dim {
+  opacity: 0.3;
+}
+
 html,
 body {
   margin: 0;
