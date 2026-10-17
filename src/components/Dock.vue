@@ -13,11 +13,13 @@ defineProps<{ apps: LinkApp[] }>()
 
 <style scoped>
 .dock {
+  /* Hugs its icons, like the iOS dock when it holds only a few apps */
   display: flex;
-  justify-content: space-around;
-  gap: 12px;
-  padding: 14px 16px;
-  border-radius: 36px;
+  width: fit-content;
+  margin: 0 auto;
+  gap: calc(var(--icon-size) * 0.42);
+  padding: 14px calc(var(--icon-size) * 0.3);
+  border-radius: calc(var(--icon-size) * 0.5);
 }
 
 /* Keep icons above the glass highlight layers */

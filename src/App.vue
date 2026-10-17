@@ -355,7 +355,6 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
 
   .dock-wrap {
     align-self: center;
-    width: min(100%, 460px);
   }
 }
 
