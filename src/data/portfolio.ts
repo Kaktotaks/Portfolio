@@ -133,7 +133,7 @@ export const projects: Project[] = [
       '10+ localized onboarding variants launched without app releases, showing which UX and geo convert best.',
       'Testing and time-to-market cut ~3× with the internal configuration tool.',
       'Proposed A/B hypotheses from funnel data that tripled revenue for a target user cohort.',
-      'Halved per-payment commission fees by migrating payments to Solidgate.',
+      'Onboarding and paywall pages are built from server-driven configs via BaaS (Firebase / Firestore) — product and marketing launch new flows without an App Store release.',
       '100+ A/B tests set up or co-managed; experimentation set up from scratch and product teams trained to run it.',
     ],
     metrics: [
