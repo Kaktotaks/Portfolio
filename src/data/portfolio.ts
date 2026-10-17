@@ -75,16 +75,16 @@ export const profile: Profile = {
       note: 'My lifecell — a top-3 Ukrainian operator app with 10M+ users.',
     },
     {
-      company: "Drum'N'Code",
-      title: 'iOS Developer',
-      period: '2021 — 2023',
-      note: 'Mainly TelQuel, a media app: WKWebView, IAP, PDFKit, legacy refactoring.',
-    },
-    {
       company: 'Web Academy',
       title: 'iOS Mentor',
       period: '2023',
       note: '“iOS from scratch” course. 50+ students mentored overall.',
+    },
+    {
+      company: "Drum'N'Code",
+      title: 'iOS Developer',
+      period: '2021 — 2023',
+      note: 'Mainly TelQuel, a media app: WKWebView, IAP, PDFKit, legacy refactoring.',
     },
     {
       company: 'PrivatBank',
