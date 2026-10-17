@@ -42,7 +42,7 @@ export const profile: Profile = {
   skills: [
     {
       title: 'iOS',
-      items: ['Swift', 'SwiftUI', 'UIKit', 'Combine', 'RxSwift', 'async/await', 'TCA', 'MVVM+C', 'SPM', 'Core Data', 'StoreKit'],
+      items: ['Swift', 'SwiftUI', 'UIKit', 'Combine', 'RxSwift', 'async/await', 'TCA', 'MVVM+C', 'SPM', 'Core Data', 'StoreKit 2'],
     },
     {
       title: 'Web',
@@ -121,7 +121,8 @@ export const projects: Project[] = [
     highlights: [
       'Build modern iOS features in Swift, UIKit and SwiftUI, plus the product’s web version in Vue 3 + TypeScript, Vite, Pinia and Apollo GraphQL.',
       'Reactive data flow with Combine on top of GraphQL APIs; TCA and MVVM + Combine in a multi-module SPM codebase.',
-      'Own AppsFlyer attribution and monetization: StoreKit, In-App Purchases, subscriptions and Solidgate web payments.',
+      'Own AppsFlyer attribution and monetization: In-App Purchases, subscriptions and Solidgate web payments.',
+      'Create the app’s products in App Store Connect — in-app purchases and subscription plans — and implement them on the latest StoreKit 2, backed by deep knowledge of the iOS payment system.',
       'Ship via Firebase; run A/B tests and manage feature flags through GrowthBook.',
       'Designed Firestore-driven onboarding and paywall builders with configurable subscription flows.',
       'Built an internal ad-hoc debug tool that lets any teammate configure user flows, funnels, onboardings and paywalls on demand.',
@@ -151,7 +152,7 @@ export const projects: Project[] = [
       'Combine',
       'GraphQL',
       'SPM',
-      'StoreKit',
+      'StoreKit 2',
       'Firebase',
       'GrowthBook',
       'AppsFlyer',
