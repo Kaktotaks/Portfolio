@@ -2,6 +2,7 @@
 import { nextTick, onMounted, onUnmounted, ref } from 'vue'
 import type { IconStyle } from '../data/types'
 import Glyph from './Glyph.vue'
+import SystemIconArt from './SystemIconArt.vue'
 import { useDrag } from '../composables/useDrag'
 
 /**
@@ -176,6 +177,7 @@ defineExpose({ close })
       aria-hidden="true"
     >
       <img v-if="icon.image" :src="icon.image" alt="" />
+      <SystemIconArt v-else-if="icon.art" :art="icon.art" class="face-art" />
       <Glyph v-else :name="icon.glyph" />
     </div>
 
@@ -244,6 +246,13 @@ defineExpose({ close })
 .icon-face svg {
   width: 52%;
   height: 52%;
+}
+
+.icon-face .face-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 /* Floating controls over content, with a soft scroll-edge fade instead of a solid bar */

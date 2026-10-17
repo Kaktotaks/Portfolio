@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { IconStyle } from '../data/types'
 import Glyph from './Glyph.vue'
+import SystemIconArt from './SystemIconArt.vue'
 
 /**
  * One app icon, drawn like a real device renders it:
@@ -13,6 +14,7 @@ defineProps<{ icon: IconStyle; size?: string }>()
 <template>
   <span class="icon-tile" :style="{ '--size': size ?? 'var(--icon-size)' }">
     <img v-if="icon.image" class="art" :src="icon.image" alt="" draggable="false" />
+    <span v-else-if="icon.art" class="art"><SystemIconArt :art="icon.art" /></span>
     <span v-else class="art gradient" :style="{ '--from': icon.from, '--to': icon.to, color: icon.ink ?? '#fff' }">
       <Glyph :name="icon.glyph" />
     </span>
@@ -42,6 +44,7 @@ defineProps<{ icon: IconStyle; size?: string }>()
 }
 
 .art {
+  overflow: hidden;
   position: absolute;
   inset: 0;
   width: 100%;

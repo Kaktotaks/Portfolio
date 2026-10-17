@@ -13,7 +13,10 @@ export type GlyphName =
   | 'graduation'
   | 'check'
 
-/** Visual identity of a home-screen icon. Gradients only — no third-party logos. */
+/** Built-in iOS-style artwork for the system apps (see SystemIconArt.vue). */
+export type SystemArt = 'contact' | 'briefcase' | 'gear'
+
+/** Visual identity of a home-screen icon. */
 export interface IconStyle {
   glyph: GlyphName
   from: string
@@ -22,6 +25,8 @@ export interface IconStyle {
   ink?: string
   /** Real app icon artwork; when set it replaces the gradient + glyph */
   image?: string
+  /** iOS-style drawn artwork for system apps; replaces the gradient + glyph */
+  art?: SystemArt
 }
 
 export interface Metric {

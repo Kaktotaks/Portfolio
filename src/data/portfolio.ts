@@ -220,9 +220,9 @@ export const projects: Project[] = [
 ]
 
 const systemApps: SystemApp[] = [
-  { kind: 'system', id: 'about', name: 'About', icon: { glyph: 'person', from: '#fbbf24', to: '#c2410c' } },
-  { kind: 'system', id: 'notes', name: 'Experience', icon: { glyph: 'notes', from: '#fde68a', to: '#f59e0b', ink: '#78350f' } },
-  { kind: 'system', id: 'settings', name: 'Skills', icon: { glyph: 'settings', from: '#9ca3af', to: '#374151' } },
+  { kind: 'system', id: 'about', name: 'About', icon: { glyph: 'person', from: '#fbfbfd', to: '#c9c9d0', art: 'contact' } },
+  { kind: 'system', id: 'notes', name: 'Experience', icon: { glyph: 'notes', from: '#ffbe4d', to: '#ff7d0a', art: 'briefcase' } },
+  { kind: 'system', id: 'settings', name: 'Skills', icon: { glyph: 'settings', from: '#9a9aa0', to: '#4a4a50', art: 'gear' } },
 ]
 
 export const dock: LinkApp[] = [
