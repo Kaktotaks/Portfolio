@@ -1,0 +1,133 @@
+:root {
+  --ink: #111114;
+  --ink-secondary: #6b6b73;
+  --surface: #f2f2f7;
+  --card: #ffffff;
+  --paper: #fffdf6;
+  --separator: rgb(60 60 67 / 0.18);
+  --tint: #0a84ff;
+  --wallpaper:
+    radial-gradient(120% 80% at 10% 0%, #ff8a5c 0%, transparent 55%),
+    radial-gradient(90% 70% at 100% 30%, #7c3aed 0%, transparent 60%),
+    radial-gradient(120% 90% at 30% 100%, #0ea5e9 0%, transparent 60%),
+    #1e1b4b;
+
+  color-scheme: light dark;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.4;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #f5f5f7;
+    --ink-secondary: #a1a1aa;
+    --surface: #000000;
+    --card: #1c1c1e;
+    --paper: #1c1a14;
+    --separator: rgb(84 84 88 / 0.6);
+    --tint: #0a84ff;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: #050507;
+  overflow: hidden;
+}
+
+/* Shared iOS "inset grouped" list styles used by the in-app pages */
+.page {
+  padding: 8px 18px 56px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.section {
+  margin-top: 22px;
+}
+
+.section-title {
+  margin: 0 0 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-secondary);
+}
+
+.group {
+  background: var(--card);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  line-height: 1.45;
+}
+
+.row + .row {
+  border-top: 1px solid var(--separator);
+}
+
+.row a {
+  color: var(--tint);
+  text-decoration: none;
+}
+
+.row a:hover {
+  text-decoration: underline;
+}
+
+.prose {
+  margin: 0;
+  padding: 14px 16px;
+  line-height: 1.5;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 14px 16px;
+}
+
+.chip {
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  background: color-mix(in srgb, var(--tint) 12%, transparent);
+  color: var(--tint);
+}
+
+.footnote {
+  margin: 20px 0 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--ink-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
