@@ -20,7 +20,7 @@ import SkillsApp from './components/apps/SkillsApp.vue'
 import widgetPhoto from './assets/img/widget-photo.webp'
 import { useClock } from './composables/useClock'
 import { useDrag } from './composables/useDrag'
-import { dock, homeApps, linkedinWidget, notices, profile } from './data/portfolio'
+import { contacts, dock, homeApps, linkedinWidget, notices, profile } from './data/portfolio'
 import type { HomeApp, Project, SystemApp } from './data/types'
 
 type OpenableApp = Project | SystemApp
@@ -214,7 +214,7 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
           @closed="onClosed"
         >
           <ProjectApp v-if="openApp.kind === 'project'" :project="openApp" />
-          <AboutApp v-else-if="openApp.id === 'about'" :profile="profile" :contacts="dock" />
+          <AboutApp v-else-if="openApp.id === 'about'" :profile="profile" :contacts="contacts" />
           <ExperienceApp v-else-if="openApp.id === 'notes'" :experience="profile.experience" />
           <SkillsApp v-else-if="openApp.id === 'settings'" :skills="profile.skills" />
           <PhotosApp v-else-if="openApp.id === 'photos'" />
@@ -232,7 +232,7 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
           />
           <ControlCenter
             v-else
-            :links="dock"
+            :links="contacts"
             :email="profile.email"
             :time="time"
             repo-url="https://github.com/Kaktotaks/Portfolio"

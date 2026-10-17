@@ -296,7 +296,8 @@ const systemApps: SystemApp[] = [
   { kind: 'system', id: 'notes-app', name: 'Notes', icon: { glyph: 'notes', from: '#fff6cc', to: '#ffd84d', art: 'notes' } },
 ]
 
-export const dock: LinkApp[] = [
+/** All contact links (About, Control Center). The dock shows a subset. */
+export const contacts: LinkApp[] = [
   {
     kind: 'link',
     id: 'linkedin',
@@ -328,7 +329,12 @@ export const dock: LinkApp[] = [
   },
 ]
 
-export const homeApps: HomeApp[] = [...projects, ...systemApps]
+const ON_HOME_SCREEN = ['instagram']
+
+/** Dock: contacts except those that live on the home screen as regular apps. */
+export const dock: LinkApp[] = contacts.filter((c) => !ON_HOME_SCREEN.includes(c.id))
+
+export const homeApps: HomeApp[] = [...projects, ...systemApps, ...contacts.filter((c) => ON_HOME_SCREEN.includes(c.id))]
 
 /** Notification Center cards. Each one opens the app it belongs to. */
 export interface Notice {
