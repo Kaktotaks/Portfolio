@@ -126,7 +126,7 @@ export const projects: Project[] = [
       'Ship via Firebase; run A/B tests and manage feature flags through GrowthBook.',
       'Designed Firestore-driven onboarding and paywall builders with configurable subscription flows.',
       'Built an internal ad-hoc debug tool that lets any teammate configure user flows, funnels, onboardings and paywalls on demand.',
-      'Drive quality with E2E, unit and integration tests orchestrated in Testomat.io.',
+      'Work to a “no QA” standard: engineers own quality end to end, with strict code standards and reviews, plus E2E, unit and integration tests orchestrated in Testomat.io.',
       'Author Claude Code skills and .md documentation standards adopted across the iOS, Web and Android teams.',
     ],
     impact: [
@@ -142,7 +142,7 @@ export const projects: Project[] = [
       { value: '100+', label: 'A/B tests' },
       { value: '3×', label: 'faster to market' },
     ],
-    team: 'Cross-functional product team: iOS, Web, Android, design, QA, marketing',
+    team: 'Cross-functional product team: iOS, Web, Android, design, marketing — no dedicated QA',
     domain: 'Health & wellness',
     stack: [
       'Swift',
