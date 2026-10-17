@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { nextTick, onMounted, onUnmounted, ref } from 'vue'
 import type { IconStyle } from '../data/types'
-import Glyph from './Glyph.vue'
 import SystemIconArt from './SystemIconArt.vue'
 import { rubberband, useDrag } from '../composables/useDrag'
 
@@ -199,12 +198,11 @@ defineExpose({ close })
     <!-- Icon face shown while the window is small, cross-fades into the app -->
     <div
       class="icon-face"
-      :style="{ '--from': icon.from, '--to': icon.to, color: icon.ink ?? '#fff', opacity: iconOpacity }"
+      :style="{ '--from': icon.from, '--to': icon.to, opacity: iconOpacity }"
       aria-hidden="true"
     >
       <img v-if="icon.image" :src="icon.image" alt="" />
       <SystemIconArt v-else-if="icon.art" :art="icon.art" class="face-art" />
-      <Glyph v-else :name="icon.glyph" />
     </div>
 
     <header class="nav">
@@ -270,11 +268,6 @@ defineExpose({ close })
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.icon-face svg {
-  width: 52%;
-  height: 52%;
 }
 
 .icon-face .face-art {

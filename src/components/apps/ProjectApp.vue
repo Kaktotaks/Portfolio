@@ -78,69 +78,61 @@ async function share() {
       </div>
     </div>
 
-    <template v-if="project.draft">
-      <section class="block">
-        <p class="prose muted">The case study for this project is in progress.</p>
-      </section>
-    </template>
+    <!-- Screenshots -->
+    <section v-if="project.screenshots?.length" class="block shots-block">
+      <div class="shots" tabindex="0" aria-label="Screenshots">
+        <Screenshot v-for="shot in project.screenshots" :key="shot.src" :shot="shot" />
+      </div>
+      <p class="device">
+        <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><rect x="4.5" y="1.5" width="7" height="13" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.3" /></svg>
+        {{ project.platforms.includes('Web') ? 'iPhone · also on the Web' : 'iPhone' }}
+      </p>
+    </section>
 
-    <template v-else>
-      <!-- Screenshots -->
-      <section v-if="project.screenshots?.length" class="block shots-block">
-        <div class="shots" tabindex="0" aria-label="Screenshots">
-          <Screenshot v-for="shot in project.screenshots" :key="shot.src" :shot="shot" />
-        </div>
-        <p class="device">
-          <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><rect x="4.5" y="1.5" width="7" height="13" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.3" /></svg>
-          {{ project.platforms.includes('Web') ? 'iPhone · also on the Web' : 'iPhone' }}
-        </p>
-      </section>
+    <!-- Description -->
+    <section v-if="project.product" class="block">
+      <div class="desc" :class="{ open: expanded }">
+        <p class="prose">{{ project.product }}</p>
+        <p class="prose">{{ project.summary }}</p>
+      </div>
+      <button v-if="!expanded" type="button" class="more" @click="expanded = true">more</button>
+    </section>
 
-      <!-- Description -->
-      <section v-if="project.product" class="block">
-        <div class="desc" :class="{ open: expanded }">
-          <p class="prose">{{ project.product }}</p>
-          <p class="prose">{{ project.summary }}</p>
-        </div>
-        <button v-if="!expanded" type="button" class="more" @click="expanded = true">more</button>
-      </section>
+    <!-- What I did: styled like "What's New" -->
+    <section class="block">
+      <div class="block-head">
+        <h2>What I did</h2>
+      </div>
+      <p class="version">{{ project.role }} · {{ project.period }}</p>
+      <ul class="bullets">
+        <li v-for="item in project.highlights" :key="item">{{ item }}</li>
+      </ul>
+    </section>
 
-      <!-- What I did: styled like "What's New" -->
-      <section class="block">
-        <div class="block-head">
-          <h2>What I did</h2>
-        </div>
-        <p class="version">{{ project.role }} · {{ project.period }}</p>
-        <ul class="bullets">
-          <li v-for="item in project.highlights" :key="item">{{ item }}</li>
-        </ul>
-      </section>
+    <!-- Impact -->
+    <section v-if="project.impact?.length" class="block">
+      <div class="block-head">
+        <h2>Impact</h2>
+      </div>
+      <ul class="impact">
+        <li v-for="item in project.impact" :key="item" class="impact-card">
+          <span class="tick" aria-hidden="true">
+            <svg viewBox="0 0 16 16" width="12" height="12"><path d="m3.5 8.5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </span>
+          <span>{{ item }}</span>
+        </li>
+      </ul>
+    </section>
 
-      <!-- Impact -->
-      <section v-if="project.impact?.length" class="block">
-        <div class="block-head">
-          <h2>Impact</h2>
-        </div>
-        <ul class="impact">
-          <li v-for="item in project.impact" :key="item" class="impact-card">
-            <span class="tick" aria-hidden="true">
-              <svg viewBox="0 0 16 16" width="12" height="12"><path d="m3.5 8.5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
-            </span>
-            <span>{{ item }}</span>
-          </li>
-        </ul>
-      </section>
-
-      <!-- Built with -->
-      <section class="block">
-        <div class="block-head">
-          <h2>Built with</h2>
-        </div>
-        <div class="chips">
-          <span v-for="tech in project.stack" :key="tech" class="chip">{{ tech }}</span>
-        </div>
-      </section>
-    </template>
+    <!-- Built with -->
+    <section class="block">
+      <div class="block-head">
+        <h2>Built with</h2>
+      </div>
+      <div class="chips">
+        <span v-for="tech in project.stack" :key="tech" class="chip">{{ tech }}</span>
+      </div>
+    </section>
 
     <!-- Information table -->
     <section class="block">

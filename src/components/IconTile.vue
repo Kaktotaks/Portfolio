@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import type { IconStyle } from '../data/types'
-import Glyph from './Glyph.vue'
 import SystemIconArt from './SystemIconArt.vue'
 
 /**
  * One app icon, drawn like a real device renders it:
- * artwork (or gradient + glyph) inside a continuous-corner mask, a hairline edge
+ * artwork inside a continuous-corner mask, a hairline edge
  * that catches light at the top, and a soft contact shadow.
  */
 defineProps<{ icon: IconStyle; size?: string }>()
@@ -15,9 +14,6 @@ defineProps<{ icon: IconStyle; size?: string }>()
   <span class="icon-tile" :style="{ '--size': size ?? 'var(--icon-size)' }">
     <img v-if="icon.image" class="art" :src="icon.image" alt="" draggable="false" />
     <span v-else-if="icon.art" class="art"><SystemIconArt :art="icon.art" /></span>
-    <span v-else class="art gradient" :style="{ '--from': icon.from, '--to': icon.to, color: icon.ink ?? '#fff' }">
-      <Glyph :name="icon.glyph" />
-    </span>
     <span class="edge" aria-hidden="true" />
   </span>
 </template>
@@ -53,18 +49,6 @@ defineProps<{ icon: IconStyle; size?: string }>()
   corner-shape: inherit;
   object-fit: cover;
   user-select: none;
-}
-
-.gradient {
-  display: grid;
-  place-items: center;
-  background: linear-gradient(165deg, var(--from), var(--to));
-}
-
-.gradient :deep(svg) {
-  width: 52%;
-  height: 52%;
-  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.18));
 }
 
 /* Light catching the rim: brighter at the top edge, a faint dark line at the bottom */

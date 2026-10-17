@@ -265,13 +265,6 @@ body {
     0 1px 2px rgb(0 0 0 / 0.06);
 }
 
-.footnote {
-  margin: 22px 0 0;
-  text-align: center;
-  font-size: 13px;
-  color: var(--ink-secondary);
-}
-
 /*
  * Phones and tablets: backdrop blur is the most expensive thing on the page, and nested blurs
  * multiply the cost. Glass that already sits on a frosted sheet or shade keeps its look with a

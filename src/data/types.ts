@@ -1,33 +1,14 @@
-export type GlyphName =
-  | 'leaf'
-  | 'signal'
-  | 'fish'
-  | 'doc'
-  | 'settings'
-  | 'notes'
-  | 'mail'
-  | 'linkedin'
-  | 'github'
-  | 'instagram'
-  | 'person'
-  | 'graduation'
-  | 'check'
+/** Small line symbols used inside UI (not app icons). */
+export type GlyphName = 'linkedin' | 'mail' | 'check'
 
 /** Built-in iOS-style artwork for the system apps (see SystemIconArt.vue). */
 export type SystemArt = 'contact' | 'briefcase' | 'gear' | 'photos' | 'notes'
 
-/** Visual identity of a home-screen icon. */
-export interface IconStyle {
-  glyph: GlyphName
-  from: string
-  to: string
-  /** Glyph colour, defaults to white */
-  ink?: string
-  /** Real app icon artwork; when set it replaces the gradient + glyph */
-  image?: string
-  /** iOS-style drawn artwork for system apps; replaces the gradient + glyph */
-  art?: SystemArt
-}
+/**
+ * Visual identity of a home-screen icon: either official app artwork (`image`) or
+ * drawn system-app artwork (`art`). `from`/`to` tint the zoom animation behind it.
+ */
+export type IconStyle = { from: string; to: string } & ({ image: string; art?: never } | { art: SystemArt; image?: never })
 
 export interface Metric {
   value: string
@@ -56,8 +37,6 @@ export interface Project {
   role: string
   period: string
   platforms: string[]
-  /** Case study not written yet — the app opens to a "coming soon" screen */
-  draft?: boolean
   tagline: string
   /** What the product is, in public-facing terms */
   product?: string
@@ -78,7 +57,7 @@ export interface Project {
 /** Built-in "system" apps that carry the bio instead of a classic About page. */
 export interface SystemApp {
   kind: 'system'
-  id: 'settings' | 'notes' | 'mail' | 'about' | 'photos' | 'notes-app'
+  id: 'settings' | 'notes' | 'about' | 'photos' | 'notes-app'
   name: string
   icon: IconStyle
 }

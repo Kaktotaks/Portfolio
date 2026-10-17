@@ -22,10 +22,9 @@ Everything the site shows lives in `src/data/portfolio.ts`:
 - `profile` — bio, skills, experience timeline, languages
 - `dock` — LinkedIn, GitHub, Mail, Instagram
 
-Add a project by adding one object to `projects`. Project icons use the official
-App Store artwork (`src/assets/img/icon-*.webp`, set via `icon.image`); system apps
-use a gradient + glyph (`src/components/Glyph.vue`). Set `draft: true` to show a
-"coming soon" screen until a case study is written.
+Add a project by adding one object to `projects`. Project and contact icons use the
+official App Store artwork (`src/assets/img/icon-*.webp`, set via `icon.image`); system
+apps use drawn artwork (`icon.art`, see `src/components/SystemIconArt.vue`).
 
 ## Photos app
 

@@ -180,7 +180,7 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
           <h1 class="visually-hidden">{{ profile.name }} — {{ profile.title }}</h1>
 
           <nav class="grid" aria-label="Projects and info">
-            <!-- Small widget top-left, apps flow around it — like an iPhone home screen -->
+            <!-- Widgets first: side by side on iPhone, stacked in a left column on iPad -->
             <LinkedInWidget
               :name="profile.name"
               :summary="linkedinWidget.summary"
@@ -188,12 +188,12 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
               :photo="widgetPhoto"
               :url="dock.find((d) => d.id === 'linkedin')!.url"
             />
-            <AppIcon v-for="app in homeApps" :key="app.id" :app="app" @open="launch" />
             <MapWidget
               place="Kyiv"
               detail="Ukraine"
               url="https://www.google.com/maps/search/?api=1&query=Kyiv%2C%20Ukraine"
             />
+            <AppIcon v-for="app in homeApps" :key="app.id" :app="app" @open="launch" />
           </nav>
 
           <div class="dock-wrap">

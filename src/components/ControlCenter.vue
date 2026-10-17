@@ -157,7 +157,6 @@ async function copyEmail() {
   transform: scale(0.92);
 }
 
-.round :deep(svg),
 .square :deep(svg) {
   width: 24px;
   height: 24px;
