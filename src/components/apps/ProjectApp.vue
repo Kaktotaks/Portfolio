@@ -61,8 +61,15 @@ defineProps<{ project: Project }>()
         </div>
       </section>
 
+      <section v-if="project.product" class="section">
+        <h2 class="section-title">About the app</h2>
+        <div class="group glass">
+          <p class="prose">{{ project.product }}</p>
+        </div>
+      </section>
+
       <section class="section">
-        <h2 class="section-title">Overview</h2>
+        <h2 class="section-title">My role</h2>
         <div class="group glass">
           <p class="prose">{{ project.summary }}</p>
         </div>
@@ -70,8 +77,20 @@ defineProps<{ project: Project }>()
 
       <section class="section">
         <h2 class="section-title">What I did</h2>
-        <ul class="group glass list">
+        <ul class="group glass list bullets">
           <li v-for="item in project.highlights" :key="item" class="row">{{ item }}</li>
+        </ul>
+      </section>
+
+      <section v-if="project.impact?.length" class="section">
+        <h2 class="section-title">Impact</h2>
+        <ul class="group glass list impact">
+          <li v-for="item in project.impact" :key="item" class="row">
+            <span class="tick" aria-hidden="true">
+              <svg viewBox="0 0 16 16" width="12" height="12"><path d="m3.5 8.5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </span>
+            <span>{{ item }}</span>
+          </li>
         </ul>
       </section>
 
@@ -83,11 +102,13 @@ defineProps<{ project: Project }>()
       </section>
 
       <section class="section">
-        <h2 class="section-title">Role</h2>
+        <h2 class="section-title">Details</h2>
         <ul class="group glass list">
           <li class="row"><span class="k">Position</span><span class="v">{{ project.role }}</span></li>
           <li class="row"><span class="k">Company</span><span class="v">{{ project.company }}</span></li>
           <li class="row"><span class="k">Period</span><span class="v">{{ project.period }}</span></li>
+          <li v-if="project.team" class="row"><span class="k">Team</span><span class="v">{{ project.team }}</span></li>
+          <li v-if="project.domain" class="row"><span class="k">Domain</span><span class="v">{{ project.domain }}</span></li>
         </ul>
       </section>
     </template>
@@ -225,6 +246,38 @@ h1 {
     0 0 0 1px var(--glass-edge),
     0 8px 20px rgb(0 0 0 / 0.16);
   scroll-snap-align: start;
+}
+
+.bullets .row {
+  position: relative;
+  padding-left: 30px;
+}
+
+.bullets .row::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 21px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--tint);
+}
+
+.impact .row {
+  align-items: flex-start;
+}
+
+.tick {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: #34c759;
 }
 
 .k {

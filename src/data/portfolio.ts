@@ -100,21 +100,55 @@ export const projects: Project[] = [
     period: '06.2025 — present',
     platforms: ['iOS', 'Web'],
     tagline: 'Health & wellness app with 1M+ users',
+    product:
+      'An AI life coach that helps people build emotional skills in a few minutes a day: guided sessions, ' +
+      'a personal learning path, progress streaks and practice of real-life scenarios. Available on iOS and the web.',
     summary:
-      'Product engineering across iOS and the web version: monetization, attribution and the experimentation ' +
-      'infrastructure that lets the team change onboarding and paywalls without a release.',
+      'I build product features end to end on iOS and on the web version, and own the growth stack around them: ' +
+      'attribution, Apple and web monetization, and the experimentation setup that lets the team change ' +
+      'onboarding and paywalls without an App Store release.',
     highlights: [
-      'Owned AppsFlyer attribution (organic + paid) enabling intent-based personalization — a first in the Skelar portfolio.',
-      'Designed Firestore-driven onboarding and paywall builders: 10+ localized variants, UI changes without app releases.',
-      'Built an internal ad-hoc debug tool for configuring flows, onboardings and paywalls — testing and time-to-market ~3× faster.',
-      'StoreKit, IAP and subscriptions; web payments via Solidgate.',
+      'Build modern iOS features in Swift, UIKit and SwiftUI, plus the product’s web version in Vue 3 + TypeScript, Vite, Pinia and Apollo GraphQL.',
+      'Reactive data flow with Combine on top of GraphQL APIs; TCA and MVVM + Combine in a multi-module SPM codebase.',
+      'Own AppsFlyer attribution and monetization: StoreKit, In-App Purchases, subscriptions and Solidgate web payments.',
+      'Ship via Firebase; run A/B tests and manage feature flags through GrowthBook.',
+      'Designed Firestore-driven onboarding and paywall builders with configurable subscription flows.',
+      'Built an internal ad-hoc debug tool that lets any teammate configure user flows, funnels, onboardings and paywalls on demand.',
+      'Drive quality with E2E, unit and integration tests orchestrated in Testomat.io.',
+      'Author Claude Code skills and .md documentation standards adopted across the iOS, Web and Android teams.',
+    ],
+    impact: [
+      'First product in Skelar’s portfolio to personalize content and UI by user intent from Meta / TikTok creatives (AppsFlyer, organic + paid).',
+      '10+ localized onboarding variants launched without app releases, showing which UX and geo convert best.',
+      'Testing and time-to-market cut ~3× with the internal configuration tool.',
+      'Proposed A/B hypotheses from funnel data that tripled revenue for a target user cohort.',
+      'Halved per-payment commission fees by migrating payments to Solidgate.',
+      '100+ A/B tests set up or co-managed; experimentation set up from scratch and product teams trained to run it.',
     ],
     metrics: [
       { value: '1M+', label: 'users' },
-      { value: '3×', label: 'faster QA' },
-      { value: '10+', label: 'paywall variants' },
+      { value: '100+', label: 'A/B tests' },
+      { value: '3×', label: 'faster to market' },
     ],
-    stack: ['Swift', 'SwiftUI', 'UIKit', 'TCA', 'Combine', 'GraphQL', 'GrowthBook', 'AppsFlyer', 'Vue 3', 'TypeScript'],
+    team: 'Cross-functional product team: iOS, Web, Android, design, QA, marketing',
+    domain: 'Health & wellness',
+    stack: [
+      'Swift',
+      'SwiftUI',
+      'UIKit',
+      'TCA',
+      'Combine',
+      'GraphQL',
+      'SPM',
+      'StoreKit',
+      'Firebase',
+      'GrowthBook',
+      'AppsFlyer',
+      'Vue 3',
+      'TypeScript',
+      'Pinia',
+      'Testomat.io',
+    ],
     screenshots: shots('liven', [
       'Liven intro: build emotional skills with an AI coach',
       'AI coach for navigating emotions',
@@ -135,19 +169,28 @@ export const projects: Project[] = [
     period: '02.2023 — 03.2025',
     platforms: ['iOS'],
     tagline: 'Self-care app of a top-3 Ukrainian mobile operator',
+    product:
+      'The official app of lifecell, one of the top-3 mobile operators in Ukraine: balance and expenses, tariffs, ' +
+      'managing several numbers, services and the Shake & Win rewards — used by 10M+ active subscribers.',
     summary:
-      'Feature work, analytics and large-scale refactoring on an app used by millions. Also took part in hiring ' +
-      'and onboarding new engineers.',
+      'I maintained the main app and helped build its new version inside a large team, shipping features end to end, ' +
+      'setting up analytics and steadily refactoring a big codebase — while making it noticeably more stable.',
     highlights: [
-      'Raised crash-free users from 94% to 99.9% using Crashlytics and Sentry.',
-      'Shipped features and analytics across a large MVVM+C codebase.',
-      'Interviewed candidates and onboarded new team members.',
+      'Maintained the current main project and developed the new one.',
+      'Implemented new features, set up analytics and refactored code across the app.',
+      'Worked in a big tech team with designers, back-end, QA, Android and iOS developers, product owners and business analysts.',
+      'Took part in hiring and onboarding: interviewed iOS candidates, ran code reviews and helped new teammates ramp up.',
+      'Architecture: MVVM+C with RxSwift and Combine.',
     ],
+    impact: ['Raised crash-free users from 94% to 99.9% using Firebase Crashlytics and Sentry.'],
     metrics: [
       { value: '10M+', label: 'users' },
       { value: '99.9%', label: 'crash-free' },
+      { value: 'Top-3', label: 'UA operator' },
     ],
-    stack: ['Swift', 'UIKit', 'MVVM+C', 'RxSwift', 'Combine', 'Crashlytics', 'Sentry'],
+    team: 'Large team: design, back-end, QA, Android, iOS, POs and BAs',
+    domain: 'Telecommunications & media',
+    stack: ['Swift', 'UIKit', 'MVVM+C', 'RxSwift', 'Combine', 'Firebase', 'Crashlytics', 'Sentry'],
     screenshots: shots('lifecell', [
       'Home screen: balance and tariff at a glance',
       'Shake & Win gifts',
@@ -167,17 +210,22 @@ export const projects: Project[] = [
     period: '10.2021 — 02.2023',
     platforms: ['iOS'],
     tagline: 'News & magazine app of TelQuel Media',
+    product:
+      'The app of TelQuel, a French-language news magazine from Morocco: articles, podcasts, the digital magazine ' +
+      'and an archive of 1000+ past issues, with in-app subscriptions.',
     summary:
-      "The app I spent most of my time on at Drum'N'Code: day-to-day feature work, purchases and stability " +
-      'for a media product with web-based content.',
+      "The app I spent most of my time on at Drum'N'Code, an outsourcing company: day-to-day feature work and fixes, " +
+      'purchases, document handling and long-term care of a legacy codebase.',
     highlights: [
       'Fixed defects in WKWebView-based screens and the HTML content they render.',
       'Implemented In-App Purchases.',
-      'Worked with PDFKit and FileManager for document content.',
-      'Refactored legacy code and debugged across MVVM+C, MVP and MVC.',
+      'Worked with PDFKit and FileManager for document handling.',
+      'Refactored legacy code and debugged across MVVM+C, MVP and MVC with RxSwift.',
     ],
     metrics: [],
-    stack: ['Swift', 'UIKit', 'RxSwift', 'MVVM+C', 'WKWebView', 'StoreKit', 'PDFKit'],
+    team: "Outsourcing team at Drum'N'Code",
+    domain: 'Media',
+    stack: ['Swift', 'UIKit', 'RxSwift', 'MVVM+C', 'MVP', 'WKWebView', 'StoreKit', 'PDFKit', 'FileManager'],
     screenshots: shots('telquel', [
       'TelQuel news feed',
       'Magazine issues',
@@ -194,20 +242,30 @@ export const projects: Project[] = [
     name: 'FSFU',
     icon: { glyph: 'fish', from: '#fdf68a', to: '#5b67c9', image: iconFsfu },
     company: 'Fishing Sport Federation of Ukraine',
-    role: 'Sole developer (volunteer)',
+    role: 'Product Owner & sole developer (volunteer)',
     period: '06.2021 — present',
     platforms: ['iOS'],
     tagline: 'Official federation app, built solo from scratch',
+    product:
+      'The official app of the Fishing Sport Federation of Ukraine for competitions: events, participant roles and ' +
+      'catch records that judges can verify. Distributed to participants by link.',
     summary:
-      'Designed, built and shipped the federation’s official iOS app on my own — from the first screen to App Store review.',
+      'I own the app end to end — from the competition problem and requirements to development, ' +
+      'App Store release and ongoing support. It solves a real pain point: proving results straight from the water.',
     highlights: [
-      'Catch photos stamped with GPS and time, so competition results are verifiable.',
-      'Offline-first sync queue that uploads results when signal returns on the water.',
+      'Built the whole app solo from scratch in SwiftUI with Core Data.',
+      'Catch photos are captured with GPS and timestamp, so competition results are verifiable.',
+      'Offline-first sync queue: events and photos are cached locally and uploaded when signal returns at remote venues.',
+      'Handle releases, App Store review and support for the federation.',
     ],
+    impact: ['Verifiable, time- and location-stamped results straight from the water, even at venues with no signal.'],
     metrics: [
-      { value: 'Solo', label: 'design → App Store' },
+      { value: 'Solo', label: 'idea → App Store' },
       { value: 'Offline', label: 'first' },
+      { value: '2021', label: 'supported since' },
     ],
+    team: 'Solo, working directly with the federation',
+    domain: 'Sport',
     stack: ['Swift', 'SwiftUI', 'Core Data'],
     screenshots: shots('fsfu', [
       'FSFU launch screen',

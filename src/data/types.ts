@@ -57,8 +57,16 @@ export interface Project {
   /** Case study not written yet — the app opens to a "coming soon" screen */
   draft?: boolean
   tagline: string
+  /** What the product is, in public-facing terms */
+  product?: string
   summary: string
+  /** Responsibilities and work done */
   highlights: string[]
+  /** Measurable outcomes, shown as a separate "Impact" list */
+  impact?: string[]
+  /** Who I worked with */
+  team?: string
+  domain?: string
   metrics: Metric[]
   stack: string[]
   screenshots?: Screenshot[]
