@@ -117,8 +117,11 @@
 html,
 body {
   margin: 0;
+  height: 100%;
   background: #050507;
   overflow: hidden;
+  /* The page never scrolls as a whole — only app content does */
+  overscroll-behavior: none;
 }
 
 /*

@@ -258,7 +258,10 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
 
 <style scoped>
 .stage {
-  min-height: 100dvh;
+  /* Pinned to the viewport: iOS Safari can still scroll a body with overflow:hidden and restores
+     that offset on reload, which shoved the whole UI up */
+  position: fixed;
+  inset: 0;
   display: grid;
   place-items: center;
 }
@@ -266,7 +269,7 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
 /* Phone: the browser viewport *is* the device */
 .device {
   width: 100%;
-  height: 100dvh;
+  height: 100%;
 }
 
 .screen {
