@@ -1,4 +1,5 @@
 import avatar from '../assets/img/avatar.webp'
+import iconFsfu from '../assets/img/icon-fsfu.webp'
 import iconLifecell from '../assets/img/icon-lifecell.webp'
 import iconLiven from '../assets/img/icon-liven.webp'
 import iconTelquel from '../assets/img/icon-telquel.webp'
@@ -165,7 +166,7 @@ export const projects: Project[] = [
     kind: 'project',
     id: 'fsfu',
     name: 'FSFU',
-    icon: { glyph: 'fish', from: '#38bdf8', to: '#0c4a6e' },
+    icon: { glyph: 'fish', from: '#fdf68a', to: '#5b67c9', image: iconFsfu },
     company: 'Fishing Sport Federation of Ukraine',
     role: 'Sole developer (volunteer)',
     period: '06.2021 — present',
