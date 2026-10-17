@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import type { LinkApp } from '../data/types'
 import { useTheme } from '../composables/useTheme'
 import Glyph from './Glyph.vue'
+import IconTile from './IconTile.vue'
 
 const props = defineProps<{ links: LinkApp[]; email: string; time: string; repoUrl: string }>()
 
@@ -35,7 +36,7 @@ async function copyEmail() {
           :aria-label="l.name"
           :style="{ '--on': l.icon.to }"
         >
-          <Glyph :name="l.icon.glyph" />
+          <IconTile :icon="l.icon" size="54px" />
         </a>
       </div>
 
@@ -145,12 +146,10 @@ async function copyEmail() {
 .round {
   width: 54px;
   height: 54px;
-  border-radius: 50%;
+  border-radius: 14px;
   display: grid;
   place-items: center;
   color: #fff;
-  background: var(--on);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.3);
   transition: transform 160ms ease;
 }
 

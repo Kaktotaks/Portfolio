@@ -84,6 +84,31 @@ defineProps<{ art: SystemArt }>()
       <rect x="20" y="22" width="60" height="56" rx="10" fill="none" stroke="#fff" stroke-width="3" />
     </template>
 
+    <!-- Notes: original design — lined notepad and pencil on warm yellow -->
+    <template v-else-if="art === 'notes'">
+      <defs>
+        <linearGradient id="sa-n-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#ffe066" />
+          <stop offset="1" stop-color="#ffb800" />
+        </linearGradient>
+        <linearGradient id="sa-n-paper" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#ffffff" />
+          <stop offset="1" stop-color="#fbf6e6" />
+        </linearGradient>
+      </defs>
+      <rect width="100" height="100" fill="url(#sa-n-bg)" />
+      <rect x="22" y="20" width="50" height="62" rx="7" fill="#b37400" opacity="0.25" transform="translate(0 2.5)" />
+      <rect x="22" y="20" width="50" height="62" rx="7" fill="url(#sa-n-paper)" />
+      <path d="M30 37h34M30 47h34M30 57h34M30 67h22" stroke="#f0c341" stroke-width="2.6" stroke-linecap="round" />
+      <circle cx="31" cy="27" r="2.2" fill="#e9b52f" /><circle cx="47" cy="27" r="2.2" fill="#e9b52f" /><circle cx="63" cy="27" r="2.2" fill="#e9b52f" />
+      <g transform="rotate(38 70 62)">
+        <rect x="64" y="36" width="10" height="40" rx="2" fill="#ff7a59" />
+        <rect x="64" y="36" width="10" height="6" rx="2" fill="#f2a8c5" />
+        <path d="M64 76h10l-5 9Z" fill="#f6d7a7" />
+        <path d="M67.6 82.2h2.8L69 85Z" fill="#3a3a40" />
+      </g>
+    </template>
+
     <!-- Skills: machined gear on graphite -->
     <template v-else-if="art === 'gear'">
       <defs>

@@ -366,11 +366,11 @@ defineExpose({ close })
   cursor: grabbing;
 }
 
-/* Apps like Photos are opaque, not frosted */
+/* Apps like Photos and Notes are opaque, not frosted; the app sets --app-bg */
 .window.solid {
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
-  background: var(--photos-bg);
+  background: var(--app-bg, var(--photos-bg));
 }
 
 .overlay {

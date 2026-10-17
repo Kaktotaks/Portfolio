@@ -14,7 +14,7 @@ export type GlyphName =
   | 'check'
 
 /** Built-in iOS-style artwork for the system apps (see SystemIconArt.vue). */
-export type SystemArt = 'contact' | 'briefcase' | 'gear' | 'photos'
+export type SystemArt = 'contact' | 'briefcase' | 'gear' | 'photos' | 'notes'
 
 /** Visual identity of a home-screen icon. */
 export interface IconStyle {
@@ -78,7 +78,7 @@ export interface Project {
 /** Built-in "system" apps that carry the bio instead of a classic About page. */
 export interface SystemApp {
   kind: 'system'
-  id: 'settings' | 'notes' | 'mail' | 'about' | 'photos'
+  id: 'settings' | 'notes' | 'mail' | 'about' | 'photos' | 'notes-app'
   name: string
   icon: IconStyle
 }

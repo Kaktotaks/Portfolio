@@ -293,6 +293,7 @@ const systemApps: SystemApp[] = [
   { kind: 'system', id: 'notes', name: 'Experience', icon: { glyph: 'notes', from: '#ffbe4d', to: '#ff7d0a', art: 'briefcase' } },
   { kind: 'system', id: 'settings', name: 'Skills', icon: { glyph: 'settings', from: '#9a9aa0', to: '#4a4a50', art: 'gear' } },
   { kind: 'system', id: 'photos', name: 'Photos', icon: { glyph: 'notes', from: '#ffffff', to: '#f1f1f4', art: 'photos' } },
+  { kind: 'system', id: 'notes-app', name: 'Notes', icon: { glyph: 'notes', from: '#fff6cc', to: '#ffd84d', art: 'notes' } },
 ]
 
 export const dock: LinkApp[] = [

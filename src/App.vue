@@ -14,6 +14,7 @@ import Wallpaper from './components/Wallpaper.vue'
 import AboutApp from './components/apps/AboutApp.vue'
 import ExperienceApp from './components/apps/ExperienceApp.vue'
 import PhotosApp from './components/apps/PhotosApp.vue'
+import NotesApp from './components/apps/NotesApp.vue'
 import ProjectApp from './components/apps/ProjectApp.vue'
 import SkillsApp from './components/apps/SkillsApp.vue'
 import widgetPhoto from './assets/img/widget-photo.webp'
@@ -189,9 +190,9 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
             />
             <AppIcon v-for="app in homeApps" :key="app.id" :app="app" @open="launch" />
             <MapWidget
-              place="Kyiv, Ukraine"
-              detail="Based here · Kyiv time"
-              url="https://www.openstreetmap.org/?mlat=50.4501&mlon=30.5234#map=14/50.4501/30.5234"
+              place="Kyiv"
+              detail="Ukraine"
+              url="https://www.google.com/maps/search/?api=1&query=Kyiv%2C%20Ukraine"
             />
           </nav>
 
@@ -204,7 +205,8 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
           v-if="openApp"
           :key="openApp.id"
           ref="windowRef"
-          :class="{ solid: openApp.id === 'photos' }"
+          :class="{ solid: openApp.id === 'photos' || openApp.id === 'notes-app' }"
+          :style="openApp.id === 'notes-app' ? { '--app-bg': 'var(--notes-bg)' } : undefined"
           :title="openApp.name"
           :icon="openApp.icon"
           :origin="origin"
@@ -216,6 +218,7 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
           <ExperienceApp v-else-if="openApp.id === 'notes'" :experience="profile.experience" />
           <SkillsApp v-else-if="openApp.id === 'settings'" :skills="profile.skills" />
           <PhotosApp v-else-if="openApp.id === 'photos'" />
+          <NotesApp v-else-if="openApp.id === 'notes-app'" />
         </AppWindow>
 
         <Shade v-if="shadeKind" ref="shadeRef" :key="shadeKind" :kind="shadeKind" @closed="shadeKind = null">
@@ -336,6 +339,12 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
 @container (min-width: 760px) {
   .home {
     padding: 64px 56px 22px;
+  }
+
+  /* iPad: widgets stack in a left column, apps fill the space to the right */
+  .grid :deep(.li-widget),
+  .grid :deep(.map-widget) {
+    grid-column: 1 / span 2;
   }
 
   .grid {
