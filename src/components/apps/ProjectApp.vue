@@ -25,6 +25,21 @@ defineProps<{ project: Project }>()
       </div>
     </dl>
 
+    <section v-if="project.screenshots?.length" class="section">
+      <h2 class="section-title">Preview</h2>
+      <div class="shots" tabindex="0" aria-label="Screenshots">
+        <img
+          v-for="shot in project.screenshots"
+          :key="shot.src"
+          class="shot"
+          :src="shot.src"
+          :alt="shot.alt"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </section>
+
     <section class="section">
       <h2 class="section-title">Overview</h2>
       <div class="group">
@@ -137,5 +152,30 @@ h1 {
   margin: 0;
   font-size: 22px;
   font-weight: 700;
+}
+
+.shots {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 2px 2px 10px;
+  margin: 0 -2px;
+}
+
+.shots:focus-visible {
+  outline: 2px solid var(--tint);
+  border-radius: 14px;
+}
+
+.shot {
+  flex: none;
+  width: min(46%, 220px);
+  aspect-ratio: 9 / 19.5;
+  object-fit: cover;
+  border-radius: 18px;
+  border: 1px solid var(--separator);
+  background: var(--card);
+  scroll-snap-align: start;
 }
 </style>

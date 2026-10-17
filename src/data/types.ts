@@ -26,6 +26,11 @@ export interface Metric {
   label: string
 }
 
+export interface Screenshot {
+  src: string
+  alt: string
+}
+
 export interface ProjectLink {
   label: string
   url: string
@@ -45,6 +50,7 @@ export interface Project {
   highlights: string[]
   metrics: Metric[]
   stack: string[]
+  screenshots?: Screenshot[]
   links?: ProjectLink[]
 }
 
@@ -85,6 +91,7 @@ export interface Profile {
   location: string
   timeZone: string
   email: string
+  photo: string
   bio: string
   languages: string[]
   skills: SkillGroup[]

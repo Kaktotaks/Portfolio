@@ -1,14 +1,11 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 
-defineProps<{ time: string; date: string; name: string; title: string; location: string }>()
+defineProps<{ time: string; date: string; name: string; title: string; location: string; photo: string }>()
 const emit = defineEmits<{ unlock: [] }>()
 
 const dragY = ref(0)
-const button = ref<HTMLButtonElement>()
 let startY: number | null = null
-
-onMounted(() => button.value?.focus({ preventScroll: true }))
 
 function onPointerDown(e: PointerEvent) {
   startY = e.clientY
@@ -44,14 +41,14 @@ function onPointerUp() {
     </div>
 
     <div class="notification">
-      <span class="avatar" aria-hidden="true">LS</span>
+      <img class="avatar" :src="photo" alt="" width="38" height="38" />
       <div>
         <p class="n-title">{{ name }}</p>
         <p class="n-body">{{ title }} — available for new projects.</p>
       </div>
     </div>
 
-    <button ref="button" type="button" class="unlock" @click.stop="emit('unlock')" @pointerdown.stop>
+    <button type="button" class="unlock" @click.stop="emit('unlock')" @pointerdown.stop>
       <span class="hint">Swipe up or tap to open</span>
       <span class="home-indicator" aria-hidden="true" />
     </button>
@@ -118,11 +115,7 @@ function onPointerUp() {
   width: 38px;
   height: 38px;
   border-radius: 10px;
-  display: grid;
-  place-items: center;
-  font-weight: 700;
-  font-size: 14px;
-  background: linear-gradient(160deg, #fbbf24, #c2410c);
+  object-fit: cover;
 }
 
 .n-title {

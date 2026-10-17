@@ -7,7 +7,7 @@ defineProps<{ profile: Profile; contacts: LinkApp[] }>()
 <template>
   <article class="page">
     <header class="card">
-      <span class="avatar" aria-hidden="true">LS</span>
+      <img class="avatar" :src="profile.photo" :alt="`Photo of ${profile.name}`" width="96" height="96" />
       <h1>{{ profile.name }}</h1>
       <p class="sub">{{ profile.title }}</p>
       <p class="sub small">{{ profile.location }}</p>
@@ -51,12 +51,9 @@ defineProps<{ profile: Profile; contacts: LinkApp[] }>()
   height: 96px;
   border-radius: 50%;
   margin: 0 auto 12px;
-  display: grid;
-  place-items: center;
-  font-size: 34px;
-  font-weight: 700;
-  color: #fff;
-  background: linear-gradient(160deg, #fbbf24, #c2410c);
+  display: block;
+  object-fit: cover;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.18);
 }
 
 h1 {

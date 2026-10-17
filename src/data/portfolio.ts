@@ -1,3 +1,5 @@
+import avatar from '../assets/img/avatar.webp'
+import lifecell1 from '../assets/img/lifecell-1.webp'
 import type { HomeApp, LinkApp, Profile, Project, SystemApp } from './types'
 
 /**
@@ -12,6 +14,7 @@ export const profile: Profile = {
   location: 'Dnipro, Ukraine',
   timeZone: 'Europe/Kyiv',
   email: 'leonidshevchenko350@gmail.com',
+  photo: avatar,
   bio:
     'iOS engineer with 5+ years in UIKit and SwiftUI, plus hands-on web with Vue 3 and TypeScript. ' +
     'I like the unglamorous parts that make apps feel good: stability, debugging, attribution, paywalls ' +
@@ -116,6 +119,7 @@ export const projects: Project[] = [
       { value: '99.9%', label: 'crash-free' },
     ],
     stack: ['Swift', 'UIKit', 'MVVM+C', 'RxSwift', 'Combine', 'Crashlytics', 'Sentry'],
+    screenshots: [{ src: lifecell1, alt: 'My lifecell home screen with tariff promo and account menu' }],
   },
   {
     kind: 'project',

@@ -87,7 +87,6 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
           <h1 class="visually-hidden">{{ profile.name }} — {{ profile.title }}</h1>
 
           <section class="widget" aria-label="Introduction">
-            <p class="widget-kicker">Portfolio</p>
             <p class="widget-name">{{ profile.name }}</p>
             <p class="widget-title">{{ profile.title }}</p>
             <p class="widget-foot">
@@ -128,6 +127,7 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
             :name="profile.name"
             :title="profile.title"
             :location="profile.location"
+            :photo="profile.photo"
             @unlock="unlock"
           />
         </Transition>
@@ -209,16 +209,7 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
   margin: 0;
 }
 
-.widget-kicker {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  opacity: 0.75;
-}
-
 .widget-name {
-  margin-top: 6px !important;
   font-size: 24px;
   font-weight: 700;
   letter-spacing: -0.01em;
