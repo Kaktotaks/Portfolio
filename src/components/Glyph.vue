@@ -49,6 +49,9 @@ defineProps<{ name: GlyphName }>()
       <circle cx="12" cy="8.5" r="3.5" />
       <path d="M5 20c1-4 4-6 7-6s6 2 7 6" />
     </template>
+    <template v-else-if="name === 'check'">
+      <path d="m5 12.5 4.5 4.5L19 7.5" />
+    </template>
     <template v-else-if="name === 'graduation'">
       <path d="m2.5 9 9.5-4.5L21.5 9 12 13.5Z" />
       <path d="M6.5 11v4.5c3 2.5 8 2.5 11 0V11" />

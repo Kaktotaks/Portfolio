@@ -198,13 +198,21 @@ h1 {
   gap: 12px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  padding: 2px 2px 10px;
-  margin: 0 -2px;
+  /* Room for the drop shadow on every side, so the scroll box never clips it into a hard edge */
+  padding: 14px 18px 30px;
+  margin: -14px -18px -22px;
+  scroll-padding-inline: 18px;
+  scrollbar-width: none;
+}
+
+.shots::-webkit-scrollbar {
+  display: none;
 }
 
 .shots:focus-visible {
   outline: 2px solid var(--tint);
-  border-radius: 14px;
+  outline-offset: -6px;
+  border-radius: 28px;
 }
 
 .shot {
@@ -215,7 +223,7 @@ h1 {
   border-radius: 22px;
   box-shadow:
     0 0 0 1px var(--glass-edge),
-    0 10px 30px rgb(0 0 0 / 0.18);
+    0 8px 20px rgb(0 0 0 / 0.16);
   scroll-snap-align: start;
 }
 

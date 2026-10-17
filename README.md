@@ -33,6 +33,15 @@ use a gradient + glyph (`src/components/Glyph.vue`). Set `draft: true` to show a
 Keep `backdrop-filter` values literal and put `-webkit-backdrop-filter` first —
 the CSS minifier drops the unprefixed property otherwise, which breaks the blur in Chrome.
 
+## Gestures
+
+Mouse, touch and pen all work (`src/composables/useDrag.ts`):
+
+- Pull down from the left half of the status bar → Notification Center; right half → Control Center.
+  Swipe up (or press Esc) to close. Tapping the status bar halves opens them too, for keyboard users.
+- In an app: drag the home indicator up to shrink the app back to its icon; swipe from the left edge to go back.
+- Releases are velocity-aware, so a quick flick completes a gesture early.
+
 ## Deep links
 
 `/#/liven`, `/#/lifecell`, `/#/fsfu`, `/#/about`, … open an app directly — useful

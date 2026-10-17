@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref, shallowRef } from 'vue'
+import { onMounted, onUnmounted, ref, shallowRef } from 'vue'
 import AppIcon from './components/AppIcon.vue'
 import AppWindow from './components/AppWindow.vue'
+import ControlCenter from './components/ControlCenter.vue'
+import NotificationCenter from './components/NotificationCenter.vue'
+import Shade from './components/Shade.vue'
 import Dock from './components/Dock.vue'
 import LockScreen from './components/LockScreen.vue'
 import StatusBar from './components/StatusBar.vue'
@@ -11,7 +14,8 @@ import ExperienceApp from './components/apps/ExperienceApp.vue'
 import ProjectApp from './components/apps/ProjectApp.vue'
 import SkillsApp from './components/apps/SkillsApp.vue'
 import { useClock } from './composables/useClock'
-import { dock, homeApps, profile } from './data/portfolio'
+import { useDrag } from './composables/useDrag'
+import { dock, homeApps, notices, profile } from './data/portfolio'
 import type { HomeApp, Project, SystemApp } from './data/types'
 
 type OpenableApp = Project | SystemApp
@@ -24,7 +28,6 @@ const openApp = shallowRef<OpenableApp | null>(null)
 const origin = shallowRef<DOMRect | null>(null)
 let returnFocusTo: HTMLElement | null = null
 
-const projectCount = computed(() => homeApps.filter((a) => a.kind === 'project').length)
 
 function readUnlocked(): boolean {
   try {
@@ -71,6 +74,68 @@ function syncFromHash() {
 
 const windowRef = ref<InstanceType<typeof AppWindow>>()
 
+/* ---------- Notification Center & Control Center ---------- */
+
+type ShadeKind = 'notifications' | 'control'
+const shadeKind = ref<ShadeKind | null>(null)
+const shadeP = ref(0)
+const shadeDragging = ref(false)
+const screenRef = ref<HTMLElement>()
+let closeTimer: number | undefined
+
+function screenHeight() {
+  return screenRef.value?.getBoundingClientRect().height ?? window.innerHeight
+}
+
+function openShade(kind: ShadeKind) {
+  window.clearTimeout(closeTimer)
+  shadeKind.value = kind
+  shadeDragging.value = false
+  // Next frame, so the panel mounts at 0 and transitions in
+  requestAnimationFrame(() => (shadeP.value = 1))
+}
+
+function settleShade(open: boolean) {
+  shadeDragging.value = false
+  shadeP.value = open ? 1 : 0
+  if (!open) closeTimer = window.setTimeout(() => (shadeKind.value = null), 420)
+}
+
+/** Pull down from the left or right half of the status bar, like iOS. */
+function pullFrom(kind: ShadeKind) {
+  return useDrag({
+    start: () => {
+      if (shadeKind.value && shadeP.value > 0) return false
+      window.clearTimeout(closeTimer)
+    },
+    move: ({ dy }) => {
+      shadeKind.value = kind
+      shadeDragging.value = true
+      shadeP.value = Math.max(0, Math.min(1, dy / (screenHeight() * 0.6)))
+    },
+    end: ({ dy, vy, tap }) => {
+      if (tap) return
+      settleShade(dy > screenHeight() * 0.18 || vy > 0.5)
+    },
+  })
+}
+const pullNotifications = pullFrom('notifications')
+const pullControl = pullFrom('control')
+
+function onShadeDrag(p: number) {
+  shadeDragging.value = true
+  shadeP.value = p
+}
+
+function openFromNotification(appId: string) {
+  settleShade(false)
+  const app = homeApps.find((a) => a.id === appId)
+  if (!app || app.kind === 'link') return
+  locked.value = false
+  const tile = document.querySelector(`[aria-label="Open ${app.name}"] .icon-tile`)
+  window.setTimeout(() => launch(app, openApp.value ? null : (tile?.getBoundingClientRect() ?? null)), 200)
+}
+
 onMounted(() => {
   syncFromHash()
   window.addEventListener('popstate', syncFromHash)
@@ -81,9 +146,25 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
 <template>
   <main class="stage">
     <div class="device">
-      <div class="screen">
+      <div ref="screenRef" class="screen">
         <Wallpaper />
-        <StatusBar :time="time" :dark="!!openApp" />
+        <StatusBar :time="time" :dark="!!openApp && !shadeKind" />
+
+        <!-- Pull-down zones over the status bar: left = Notification Center, right = Control Center -->
+        <button
+          type="button"
+          class="pull pull-left"
+          aria-label="Open Notification Center"
+          v-bind="pullNotifications"
+          @click="openShade('notifications')"
+        />
+        <button
+          type="button"
+          class="pull pull-right"
+          aria-label="Open Control Center"
+          v-bind="pullControl"
+          @click="openShade('control')"
+        />
 
         <div class="home" :class="{ receded: openApp, locked }" :inert="!!openApp || locked">
           <h1 class="visually-hidden">{{ profile.name }} — {{ profile.title }}</h1>
@@ -91,10 +172,6 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
           <section class="widget glass-clear" aria-label="Introduction">
             <p class="widget-name">{{ profile.name }}</p>
             <p class="widget-title">{{ profile.title }}</p>
-            <p class="widget-foot">
-              <span class="dot" aria-hidden="true" />
-              {{ projectCount }} projects · tap an app to open
-            </p>
           </section>
 
           <nav class="grid" aria-label="Projects and info">
@@ -120,6 +197,31 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
           <ExperienceApp v-else-if="openApp.id === 'notes'" :experience="profile.experience" />
           <SkillsApp v-else-if="openApp.id === 'settings'" :skills="profile.skills" />
         </AppWindow>
+
+        <Shade
+          v-if="shadeKind"
+          :kind="shadeKind"
+          :progress="shadeP"
+          :dragging="shadeDragging"
+          @drag="onShadeDrag"
+          @release="settleShade"
+        >
+          <NotificationCenter
+            v-if="shadeKind === 'notifications'"
+            :time="time"
+            :date="date"
+            :notices="notices"
+            :apps="homeApps"
+            @open="openFromNotification"
+          />
+          <ControlCenter
+            v-else
+            :links="dock"
+            :email="profile.email"
+            :time="time"
+            repo-url="https://github.com/Kaktotaks/Portfolio"
+          />
+        </Shade>
 
         <Transition name="lock">
           <LockScreen
@@ -226,23 +328,6 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
   opacity: 0.9;
 }
 
-.widget-foot {
-  margin-top: 12px !important;
-  font-size: 13px;
-  opacity: 0.85;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #4ade80;
-  box-shadow: 0 0 0 3px rgb(74 222 128 / 0.25);
-}
-
 .grid {
   margin-top: 28px;
   display: grid;
@@ -286,6 +371,33 @@ onUnmounted(() => window.removeEventListener('popstate', syncFromHash))
     justify-self: center;
     width: min(100%, 460px);
   }
+}
+
+.pull {
+  position: absolute;
+  top: 0;
+  z-index: 35;
+  width: 50%;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: grab;
+  touch-action: none;
+}
+
+.pull-left {
+  left: 0;
+}
+
+.pull-right {
+  right: 0;
+}
+
+.pull:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -4px;
+  border-radius: 14px;
 }
 
 .lock-leave-active {

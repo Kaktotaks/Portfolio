@@ -257,3 +257,19 @@ export const dock: LinkApp[] = [
 ]
 
 export const homeApps: HomeApp[] = [...projects, ...systemApps]
+
+/** Notification Center cards. Each one opens the app it belongs to. */
+export interface Notice {
+  appId: string
+  title: string
+  body: string
+  when: string
+}
+
+export const notices: Notice[] = [
+  { appId: 'about', title: 'Open to new roles', body: 'Senior iOS · Remote. Tap for contacts.', when: 'now' },
+  { appId: 'liven', title: '1M+ users', body: 'Owned attribution, paywalls and the A/B experimentation stack.', when: '2025' },
+  { appId: 'lifecell', title: 'Crash-free 99.9%', body: 'Up from 94% on an app with 10M+ users.', when: '2024' },
+  { appId: 'fsfu', title: 'Shipped solo', body: 'Offline-first SwiftUI app, from first screen to App Store.', when: 'ongoing' },
+  { appId: 'telquel', title: 'Media app', body: 'In-App Purchases, WKWebView and PDFKit at Drum’N’Code.', when: '2022' },
+]

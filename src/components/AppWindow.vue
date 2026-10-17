@@ -2,6 +2,7 @@
 import { nextTick, onMounted, onUnmounted, ref } from 'vue'
 import type { IconStyle } from '../data/types'
 import Glyph from './Glyph.vue'
+import { useDrag } from '../composables/useDrag'
 
 /**
  * A full-screen "app" that zooms out of the icon it was launched from (FLIP),
@@ -29,7 +30,8 @@ const EASE = 'cubic-bezier(0.32, 0.72, 0, 1)'
 function collapsedTransform(): Record<string, string> {
   const el = root.value
   if (!el || !props.origin || reduceMotion) return { opacity: '0' }
-  const box = el.getBoundingClientRect()
+  // Measure the untransformed frame (the screen), not the window, which may be mid-gesture
+  const box = (el.parentElement ?? el).getBoundingClientRect()
   const o = props.origin
   const sx = o.width / box.width
   const sy = o.height / box.height
@@ -78,6 +80,68 @@ function close() {
   window.setTimeout(() => emit('closed'), reduceMotion ? 160 : DURATION - 60)
 }
 
+/* ---------- Gestures ---------- */
+
+const CARD_RADIUS = '44px'
+const SPRING = 'cubic-bezier(0.2, 0.9, 0.25, 1.15)'
+
+function screenSize() {
+  const r = (root.value?.parentElement ?? document.body).getBoundingClientRect()
+  return { w: r.width, h: r.height }
+}
+
+// Drag up from the home indicator: the app shrinks into a card that follows the finger
+const homeDrag = useDrag({
+  start: () => !closing,
+  move: ({ dx, dy }) => {
+    const { h } = screenSize()
+    const up = Math.max(0, -dy)
+    const p = Math.min(1, up / (h * 0.55))
+    const scale = 1 - p * 0.5
+    style.value = {
+      transform: `translate(${dx * 0.6}px, ${-up * 0.7}px) scale(${scale})`,
+      transformOrigin: '50% 100%',
+      borderRadius: CARD_RADIUS,
+      transition: 'none',
+    }
+  },
+  end: ({ dy, vy, tap }) => {
+    if (tap) return close()
+    if (-dy > 90 || vy < -0.6) return close()
+    springBack()
+  },
+})
+
+// Swipe from the left edge: the app slides right to reveal the home screen (iOS "back")
+const edgeDrag = useDrag({
+  start: () => !closing,
+  move: ({ dx }) => {
+    style.value = {
+      transform: `translateX(${Math.max(0, dx)}px)`,
+      borderRadius: '0px',
+      boxShadow: '-12px 0 40px rgb(0 0 0 / 0.25)',
+      transition: 'none',
+    }
+  },
+  end: ({ dx, vx }) => {
+    const { w } = screenSize()
+    if (dx > w * 0.33 || vx > 0.5) {
+      closing = true
+      style.value = { transform: `translateX(${w}px)`, transition: `transform 280ms ${EASE}` }
+      window.setTimeout(() => emit('closed'), 280)
+    } else springBack()
+  },
+})
+
+function springBack() {
+  style.value = {
+    transform: 'none',
+    transformOrigin: '50% 100%',
+    borderRadius: '0px',
+    transition: `transform 380ms ${SPRING}, border-radius 380ms ${EASE}`,
+  }
+}
+
 defineExpose({ close })
 </script>
 
@@ -105,7 +169,18 @@ defineExpose({ close })
       <slot />
     </div>
 
-    <button type="button" class="home-bar" aria-label="Close and go home" @click="close">
+    <!-- Edge swipe zone for the back gesture -->
+    <div class="edge-zone" aria-hidden="true" v-bind="edgeDrag" />
+
+    <!-- Home indicator: tap or drag up to go home. Keyboard users press Enter or Esc. -->
+    <button
+      type="button"
+      class="home-bar"
+      aria-label="Close and go home"
+      v-bind="homeDrag"
+      @keydown.enter.prevent="close"
+      @keydown.space.prevent="close"
+    >
       <span />
     </button>
   </div>
@@ -213,14 +288,33 @@ defineExpose({ close })
 
 .home-bar {
   position: absolute;
-  left: 50%;
-  bottom: 6px;
-  transform: translateX(-50%);
-  z-index: 3;
-  padding: 10px 30px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 30px;
+  z-index: 6;
+  display: grid;
+  place-items: end center;
+  padding: 0 0 8px;
   background: none;
   border: 0;
-  cursor: pointer;
+  cursor: grab;
+  touch-action: none;
+}
+
+.home-bar:active {
+  cursor: grabbing;
+}
+
+.edge-zone {
+  position: absolute;
+  left: 0;
+  top: 100px;
+  bottom: 30px;
+  width: 16px;
+  z-index: 6;
+  touch-action: none;
+  cursor: e-resize;
 }
 
 .home-bar span {

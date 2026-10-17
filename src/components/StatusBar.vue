@@ -16,7 +16,8 @@ defineProps<{ time: string; dark?: boolean }>()
 <style scoped>
 .status-bar {
   position: relative;
-  z-index: 25;
+  z-index: 45;
+  pointer-events: none;
   display: flex;
   justify-content: space-between;
   align-items: center;

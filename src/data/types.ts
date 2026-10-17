@@ -11,6 +11,7 @@ export type GlyphName =
   | 'instagram'
   | 'person'
   | 'graduation'
+  | 'check'
 
 /** Visual identity of a home-screen icon. Gradients only — no third-party logos. */
 export interface IconStyle {
