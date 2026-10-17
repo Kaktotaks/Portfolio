@@ -14,7 +14,7 @@ import type { HomeApp, LinkApp, Profile, Project, SystemApp } from './types'
 export const profile: Profile = {
   name: 'Leonid Shevchenko',
   title: 'Senior Mobile Engineer · iOS',
-  location: 'Dnipro, Ukraine',
+  location: 'Ukraine',
   timeZone: 'Europe/Kyiv',
   email: 'leonidshevchenko350@gmail.com',
   photo: avatar,
@@ -62,7 +62,7 @@ export const profile: Profile = {
       company: "Drum'N'Code",
       title: 'iOS Developer',
       period: '2021 — 2023',
-      note: 'Client products: WKWebView, IAP, PDFKit, legacy refactoring.',
+      note: 'Mainly TelQuel, a media app: WKWebView, IAP, PDFKit, legacy refactoring.',
     },
     {
       company: 'Web Academy',
@@ -132,17 +132,22 @@ export const projects: Project[] = [
     id: 'telquel',
     name: 'TelQuel',
     icon: { glyph: 'doc', from: '#ef3b24', to: '#b91c1c', image: iconTelquel },
-    // TODO: fill in from Leonid — company, role, dates, highlights, stack
-    draft: true,
-    company: '',
-    role: '',
-    period: '',
+    company: "Drum'N'Code",
+    role: 'iOS Developer',
+    period: '10.2021 — 02.2023',
     platforms: ['iOS'],
     tagline: 'News & magazine app of TelQuel Media',
-    summary: '',
-    highlights: [],
+    summary:
+      "The app I spent most of my time on at Drum'N'Code: day-to-day feature work, purchases and stability " +
+      'for a media product with web-based content.',
+    highlights: [
+      'Fixed defects in WKWebView-based screens and the HTML content they render.',
+      'Implemented In-App Purchases.',
+      'Worked with PDFKit and FileManager for document content.',
+      'Refactored legacy code and debugged across MVVM+C, MVP and MVC.',
+    ],
     metrics: [],
-    stack: [],
+    stack: ['Swift', 'UIKit', 'RxSwift', 'MVVM+C', 'WKWebView', 'StoreKit', 'PDFKit'],
     links: [{ label: 'App Store', url: 'https://apps.apple.com/ua/app/telquel/id1504054422' }],
   },
   {
