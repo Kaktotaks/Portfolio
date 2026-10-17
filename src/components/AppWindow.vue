@@ -17,6 +17,11 @@ const iconOpacity = ref(1)
 let closing = false
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+// Move focus into the app only for keyboard users; a focus ring after a tap looks like a bug
+let usingKeyboard = false
+window.addEventListener('keydown', () => (usingKeyboard = true), { capture: true })
+window.addEventListener('pointerdown', () => (usingKeyboard = false), { capture: true })
 const DURATION = 420
 const EASE = 'cubic-bezier(0.32, 0.72, 0, 1)'
 
@@ -48,7 +53,7 @@ onMounted(async () => {
         transition: reduceMotion ? 'opacity 200ms ease' : `transform ${DURATION}ms ${EASE}, border-radius ${DURATION}ms ${EASE}`,
       }
       iconOpacity.value = 0
-      closeButton.value?.focus({ preventScroll: true })
+      if (usingKeyboard) closeButton.value?.focus({ preventScroll: true })
     }),
   )
   window.addEventListener('keydown', onKey)
@@ -154,7 +159,6 @@ defineExpose({ close })
   align-items: center;
   padding: 50px 14px 18px;
   pointer-events: none;
-  background: linear-gradient(to bottom, var(--sheet) 30%, transparent);
 }
 
 .nav > * {
@@ -202,6 +206,9 @@ defineExpose({ close })
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   padding-top: 100px;
+  /* Scroll-edge effect: content dissolves as it slides under the status bar and controls */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 40px, #000 112px);
+  mask-image: linear-gradient(to bottom, transparent 40px, #000 112px);
 }
 
 .home-bar {

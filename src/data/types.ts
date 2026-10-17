@@ -88,6 +88,7 @@ export interface Role {
   title: string
   period: string
   note: string
+  highlights?: string[]
 }
 
 export interface Profile {

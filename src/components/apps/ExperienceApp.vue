@@ -7,7 +7,7 @@ defineProps<{ experience: Role[] }>()
 <template>
   <article class="page">
     <h1>Experience</h1>
-    <p class="lead">5+ years building iOS products — startups, product companies, outsourcing and outstaffing.</p>
+    <p class="lead">5+ years building iOS and web products, after 8 years in banking at PrivatBank.</p>
 
     <ol class="timeline group glass">
       <li v-for="role in experience" :key="role.company + role.period">
@@ -15,6 +15,9 @@ defineProps<{ experience: Role[] }>()
         <h2>{{ role.title }}</h2>
         <p class="company">{{ role.company }}</p>
         <p class="note">{{ role.note }}</p>
+        <ul v-if="role.highlights?.length" class="highlights">
+          <li v-for="h in role.highlights" :key="h">{{ h }}</li>
+        </ul>
       </li>
     </ol>
   </article>
@@ -38,7 +41,7 @@ h1 {
   padding: 20px 18px 4px 22px;
 }
 
-.timeline li {
+.timeline > li {
   position: relative;
   z-index: 2;
   padding: 0 0 22px 22px;
@@ -46,11 +49,11 @@ h1 {
   margin-left: 6px;
 }
 
-.timeline li:last-child {
+.timeline > li:last-child {
   border-left-color: transparent;
 }
 
-.timeline li::before {
+.timeline > li::before {
   content: '';
   position: absolute;
   left: -7px;
@@ -85,5 +88,14 @@ h2 {
 .note {
   margin: 6px 0 0;
   line-height: 1.45;
+}
+.highlights {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  line-height: 1.45;
+}
+
+.highlights li {
+  margin-top: 4px;
 }
 </style>

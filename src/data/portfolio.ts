@@ -70,6 +70,17 @@ export const profile: Profile = {
       period: '2023',
       note: '“iOS from scratch” course. 50+ students mentored overall.',
     },
+    {
+      company: 'PrivatBank',
+      title: 'Project Manager',
+      period: '2013 — 2021',
+      note: 'VIP banking and premium cards. Grew from VIP client support to project lead; retention projects and process changes.',
+      highlights: [
+        'Led a team of up to 5.',
+        'Churn analysis and new retention logic cut VIP-client outflow by 10%.',
+        'Pushed a targeted sorry-bonus pilot over a costly bank-wide program — cancel rate halved, pilot scaled.',
+      ],
+    },
   ],
 }
 
