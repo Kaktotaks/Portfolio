@@ -10,7 +10,8 @@ defineProps<{ url: string; place: string; detail: string }>()
 </script>
 
 <template>
-  <a class="map-widget" :href="url" target="_blank" rel="noopener noreferrer" :aria-label="`Maps: ${place}. ${detail}`">
+  <a class="map-widget" :href="url" target="_blank" rel="noopener noreferrer" :aria-label="`Maps: ${place}. ${detail}. Opens Google Maps. Map data © OpenStreetMap contributors`"
+    title="Map data © OpenStreetMap contributors">
     <span class="card">
       <img class="map" :src="map" alt="" draggable="false" />
 
@@ -30,7 +31,6 @@ defineProps<{ url: string; place: string; detail: string }>()
         </span>
       </span>
 
-      <span class="attribution">© OpenStreetMap</span>
     </span>
     <span class="label">Maps</span>
   </a>
@@ -187,14 +187,6 @@ defineProps<{ url: string; place: string; detail: string }>()
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.attribution {
-  position: absolute;
-  top: 5%;
-  right: 7%;
-  font-size: 7px;
-  color: rgb(60 60 67 / 0.6);
 }
 
 .label {

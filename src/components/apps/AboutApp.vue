@@ -37,6 +37,12 @@ defineProps<{ profile: Profile; contacts: LinkApp[] }>()
         <li v-for="l in profile.languages" :key="l" class="row">{{ l }}</li>
       </ul>
     </section>
+
+    <p class="credits">
+      Map data ©
+      <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>.
+      App icons belong to their respective owners.
+    </p>
   </article>
 </template>
 
@@ -77,5 +83,16 @@ h1 {
 .group > * {
   position: relative;
   z-index: 2;
+}
+.credits {
+  margin: 28px 16px 0;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-secondary);
+}
+
+.credits a {
+  color: inherit;
 }
 </style>
