@@ -183,8 +183,7 @@ export const projects: Project[] = [
       { value: 'Offline', label: 'first' },
     ],
     stack: ['Swift', 'SwiftUI', 'Core Data'],
-    // TODO: paste the App Store URL here
-    links: [],
+    links: [{ label: 'App Store', url: 'https://apps.apple.com/ua/app/%D1%84%D1%80%D1%81%D1%83/id6624305618' }],
   },
 ]
 
