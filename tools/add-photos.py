@@ -10,7 +10,8 @@ Reads every image in photos-src/ (HEIC, JPG, PNG, WebP), and writes:
   - src/assets/photos/thumbs/<name>.webp  square thumbnail for the grid, 480 px
   - src/data/photos.json                  date, size and caption per photo, newest last
 
-Dates come from EXIF (DateTimeOriginal), falling back to the file's modified time.
+Dates come from EXIF (DateTimeOriginal). Photos without EXIF (e.g. sent through a messenger) keep
+the date already in photos.json, so you can fix it by hand; new ones fall back to the file's mtime.
 Captions you add to photos.json by hand are kept on the next run.
 Originals in photos-src/ are git-ignored; only the web versions are committed.
 """
@@ -41,7 +42,7 @@ def slug(name: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
 
 
-def taken_at(img: Image.Image, path: Path) -> str:
+def exif_date(img: Image.Image) -> str | None:
     exif = img.getexif()
     raw = exif.get_ifd(0x8769).get(36867) or exif.get(306)
     if raw:
@@ -49,6 +50,10 @@ def taken_at(img: Image.Image, path: Path) -> str:
             return datetime.strptime(str(raw).strip(), "%Y:%m:%d %H:%M:%S").isoformat()
         except ValueError:
             pass
+    return None
+
+
+def file_date(path: Path) -> str:
     return datetime.fromtimestamp(path.stat().st_mtime).replace(microsecond=0).isoformat()
 
 
@@ -67,7 +72,7 @@ def main() -> int:
             continue
         name = slug(path.stem)
         raw = Image.open(path)
-        date = taken_at(raw, path)
+        date = exif_date(raw) or old.get(name, {}).get("date") or file_date(path)
         img = ImageOps.exif_transpose(raw).convert("RGB")
 
         full = img.copy()
