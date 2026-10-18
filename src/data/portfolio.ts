@@ -29,13 +29,13 @@ const shots = (app: string, alts: string[]): Screenshot[] =>
 
 export const profile: Profile = {
   name: 'Leonid Shevchenko',
-  title: 'Senior Mobile Engineer · iOS',
+  title: 'Senior Mobile (iOS) / Product Engineer',
   location: 'Ukraine',
   timeZone: 'Europe/Kyiv',
   email: 'leonidshevchenko350@gmail.com',
   photo: avatar,
   bio:
-    'iOS engineer with 5+ years in UIKit and SwiftUI, plus hands-on web with Vue 3 and TypeScript. ' +
+    'Mobile (iOS) and product engineer with 5+ years in UIKit and SwiftUI, plus hands-on web with Vue 3 and TypeScript. ' +
     'I like the unglamorous parts that make apps feel good: stability, debugging, attribution, paywalls ' +
     'and the tooling that lets a team ship faster.',
   languages: ['Ukrainian — native', 'English — C1'],
@@ -64,7 +64,7 @@ export const profile: Profile = {
   experience: [
     {
       company: 'Liven (Skelar)',
-      title: 'iOS / Product Engineer',
+      title: 'Senior Mobile (iOS) / Product Engineer',
       period: '2025 — now',
       note: 'Health & wellness product, iOS + web. Monetization, attribution, experimentation.',
     },
@@ -107,7 +107,7 @@ export const projects: Project[] = [
     name: 'Liven',
     icon: { from: '#6cc04a', to: '#2f7d1f', image: iconLiven },
     company: 'Liven (Skelar)',
-    role: 'iOS / Product Engineer',
+    role: 'Senior Mobile (iOS) / Product Engineer',
     period: '06.2025 — present',
     platforms: ['iOS', 'Web'],
     tagline: 'Health & wellness app with 1M+ users',
@@ -366,7 +366,7 @@ export interface Notice {
 }
 
 export const notices: Notice[] = [
-  { appId: 'about', title: 'Open to new roles', body: 'Senior iOS · Remote. Tap for contacts.', when: 'now' },
+  { appId: 'about', title: 'Open to new roles', body: 'Senior Mobile (iOS) / Product Engineer · Remote. Tap for contacts.', when: 'now' },
   { appId: 'liven', title: '1M+ users', body: 'Owned attribution and paywalls; co-managed 100+ A/B tests.', when: '2025' },
   { appId: 'lifecell', title: 'Crash-free 99.9%', body: 'Up from 94% on an app with 10M+ users.', when: '2024' },
   { appId: 'fsfu', title: 'Shipped solo', body: 'Offline-first SwiftUI app, from first screen to App Store.', when: 'ongoing' },
@@ -375,6 +375,6 @@ export const notices: Notice[] = [
 
 /** LinkedIn-style "Highlights" widget on the home screen. */
 export const linkedinWidget = {
-  summary: 'Senior iOS engineer, 5+ years. Apps for 1M+ and 10M+ users: monetization, growth, stability.',
+  summary: 'Senior Mobile (iOS) / Product Engineer, 5+ years. Apps for 1M+ and 10M+ users: monetization, growth, stability.',
   footer: 'Open to work',
 }

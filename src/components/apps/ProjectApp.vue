@@ -29,7 +29,7 @@ const strip = computed(() => {
 
 function roleShort(role: string) {
   if (/product owner/i.test(role)) return 'PO + Dev'
-  if (/product engineer/i.test(role)) return 'iOS / PE'
+  if (/product engineer/i.test(role)) return 'Senior iOS / PE'
   return role.replace(/ Developer$/, ' Dev').replace(/\s*\(.*\)/, '')
 }
 

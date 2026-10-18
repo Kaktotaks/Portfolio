@@ -46,7 +46,7 @@ async function copyEmail() {
         </span>
         <span class="label">
           <strong>Open to work</strong>
-          <small>Senior iOS</small>
+          <small>Senior Mobile (iOS) / Product</small>
         </span>
       </div>
 
