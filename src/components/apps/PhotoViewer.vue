@@ -202,7 +202,7 @@ const visible = (i: number) => Math.abs(i - index.value) <= 1
             class="img"
             :src="p.src"
             :alt="p.caption || `Photo from ${p.date.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })}`"
-            :style="{ aspectRatio: `${p.width} / ${p.height}` }"
+            :style="{ '--ratio': p.width / p.height }"
             draggable="false"
           />
         </div>
@@ -263,12 +263,14 @@ const visible = (i: number) => Math.abs(i - index.value) <= 1
   height: 100%;
   display: grid;
   place-items: center;
+  /* The slide is the size container, so the photo can be fitted against both its width and height */
+  container-type: size;
 }
 
+/* Aspect-fit: as large as possible without cropping, on any screen shape */
 .img {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
+  width: min(100cqw, 100cqh * var(--ratio));
+  aspect-ratio: var(--ratio);
   height: auto;
   object-fit: contain;
   will-change: transform;

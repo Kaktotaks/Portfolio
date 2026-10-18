@@ -87,7 +87,6 @@ function openGroup(cover: number) {
         :key="g.label"
         type="button"
         class="card"
-        :class="view"
         :data-cover="g.cover"
         @click="openGroup(g.cover)"
       >
@@ -143,9 +142,10 @@ h1 {
   gap: 2px;
 }
 
+/* Wider screens: more, not bigger, thumbnails (~170px each, like Photos on iPad) */
 @container (min-width: 760px) {
   .grid {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
   }
 }
 
@@ -176,9 +176,10 @@ h1 {
 }
 
 /* Months / Years cards */
+/* Months / Years: one card per row on phones, a grid of same-sized cards on wider screens */
 .cards {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
   gap: 14px;
   padding: 4px 16px;
 }
@@ -194,10 +195,6 @@ h1 {
   cursor: pointer;
   text-align: left;
   box-shadow: 0 6px 18px rgb(0 0 0 / 0.12);
-}
-
-.card.years {
-  aspect-ratio: 1;
 }
 
 .card img {
@@ -229,10 +226,6 @@ h1 {
 .card-text strong {
   font-size: 22px;
   font-weight: 700;
-}
-
-.years .card-text strong {
-  font-size: 30px;
 }
 
 .card-text small {
