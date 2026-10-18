@@ -243,10 +243,12 @@ const visible = (i: number) => Math.abs(i - index.value) <= 1
   background: #000;
 }
 
+/* The photo fits between the header (back button, date) and the thumbnail strip, never under them */
 .stage {
   position: absolute;
-  inset: 0;
-  overflow: hidden;
+  inset: 104px 0 96px;
+  /* Clip sideways (neighbouring slides) but not vertically, so zoom and swipe-down can leave the band */
+  overflow: clip visible;
   touch-action: none;
   cursor: grab;
 }
