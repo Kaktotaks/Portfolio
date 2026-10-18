@@ -205,12 +205,12 @@ defineExpose({ close })
       <SystemIconArt v-else-if="icon.art" :art="icon.art" class="face-art" />
     </div>
 
+    <!-- No back button on an app's first screen, as on iOS: swipe up on the home indicator (or Esc) closes it.
+         Apps with a stack of screens (Notes, the Photos viewer) show their own back button inside. -->
     <header class="nav">
-      <button ref="closeButton" type="button" class="back glass" aria-label="Back to home" @click="close">
-        <svg viewBox="0 0 12 20" width="10" height="17" aria-hidden="true"><path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
-      </button>
+      <span />
       <span class="nav-title glass">{{ title }}</span>
-      <span class="spacer" />
+      <span />
     </header>
 
     <div class="content">
@@ -225,6 +225,7 @@ defineExpose({ close })
 
     <!-- Home indicator: tap or drag up to go home. Keyboard users press Enter or Esc. -->
     <button
+      ref="closeButton"
       type="button"
       class="home-bar"
       aria-label="Close and go home"
@@ -293,33 +294,6 @@ defineExpose({ close })
   pointer-events: auto;
 }
 
-.back {
-  justify-self: start;
-  width: 44px;
-  height: 44px;
-  border: 0;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  color: var(--ink);
-  cursor: pointer;
-  transition: transform 180ms ease;
-}
-
-.back svg {
-  position: relative;
-  z-index: 2;
-  margin-left: -2px;
-}
-
-.back:active {
-  transform: scale(0.92);
-}
-
-.back:focus-visible {
-  outline: 2px solid var(--tint);
-  outline-offset: 2px;
-}
 
 .nav-title {
   padding: 9px 18px;
