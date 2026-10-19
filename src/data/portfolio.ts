@@ -72,6 +72,15 @@ export const profile: Profile = {
       title: 'Senior Mobile (iOS) / Product Engineer',
       period: '2025 — now',
       note: 'Health & wellness product, iOS + web. Monetization, attribution, experimentation.',
+      highlights: [
+        'Build iOS features in Swift, UIKit and SwiftUI, plus the web version in Vue 3 + TypeScript.',
+        'Create in-app purchases and subscription plans on StoreKit 2; own AppsFlyer attribution and web payments.',
+        'Designed Firestore-driven onboarding and paywall builders: 10+ localized variants shipped without App Store releases.',
+        'Built an internal debug tool for configuring flows, funnels, onboardings and paywalls on demand — testing and time-to-market ~3× faster.',
+        'Co-managed 100+ A/B tests; proposed hypotheses from funnel data that tripled revenue for a target cohort.',
+        'Work to a “no QA” standard: engineers own quality, with strict code standards, reviews and E2E, unit and integration tests.',
+        'Author Claude Code skills and documentation standards adopted across the iOS, Web and Android teams.',
+      ],
     },
     {
       company: 'FSFU · Fishing Sport Federation of Ukraine',
@@ -89,18 +98,35 @@ export const profile: Profile = {
       title: 'Middle+ iOS Developer',
       period: '2023 — 2025',
       note: 'My lifecell — a top-3 Ukrainian operator app with 10M+ users.',
+      highlights: [
+        'Maintained the main app and helped build its new version, shipping features end to end.',
+        'Set up analytics and refactored a large codebase (MVVM+C with RxSwift and Combine).',
+        'Raised crash-free users from 94% to 99.9% with Firebase Crashlytics and Sentry.',
+        'Worked in a big team of designers, back-end, QA, Android and iOS developers, POs and BAs.',
+        'Interviewed iOS candidates, ran code reviews and helped new teammates ramp up.',
+      ],
     },
     {
       company: 'Web Academy',
       title: 'iOS Mentor',
       period: '2023',
       note: '“iOS from scratch” course. 50+ students mentored overall.',
+      highlights: [
+        'Mentored beginners through the “iOS from scratch” course.',
+        'Mentored 50+ students overall, at the start of their iOS path.',
+      ],
     },
     {
       company: "Drum'N'Code",
       title: 'iOS Developer',
       period: '2021 — 2023',
       note: 'Mainly TelQuel, a media app: WKWebView, IAP, PDFKit, legacy refactoring.',
+      highlights: [
+        'Day-to-day features and fixes on TelQuel, a French-language news magazine app with 1000+ archived issues.',
+        'Implemented In-App Purchases and in-app subscriptions.',
+        'Fixed defects in WKWebView screens and the HTML they render; handled documents with PDFKit and FileManager.',
+        'Refactored and debugged a legacy codebase across MVVM+C, MVP and MVC with RxSwift.',
+      ],
     },
     {
       company: 'PrivatBank',
