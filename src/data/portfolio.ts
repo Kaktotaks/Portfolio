@@ -74,6 +74,17 @@ export const profile: Profile = {
       note: 'Health & wellness product, iOS + web. Monetization, attribution, experimentation.',
     },
     {
+      company: 'FSFU · Fishing Sport Federation of Ukraine',
+      title: 'Product Owner & Developer (volunteer)',
+      period: '2021 — now',
+      note: 'Official competition app, built solo from scratch and live on the App Store. Alongside my main jobs.',
+      highlights: [
+        'Offline-first SwiftUI + Core Data app: events and catch photos sync when signal returns at remote venues.',
+        'Catch photos carry GPS and a timestamp, so results are verifiable.',
+        'Own the whole cycle: requirements, development, App Store release and support.',
+      ],
+    },
+    {
       company: 'Intellias',
       title: 'Middle+ iOS Developer',
       period: '2023 — 2025',
