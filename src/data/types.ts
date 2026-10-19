@@ -7,8 +7,9 @@ export type SystemArt = 'contact' | 'briefcase' | 'gear' | 'photos' | 'notes'
 /**
  * Visual identity of a home-screen icon: either official app artwork (`image`) or
  * drawn system-app artwork (`art`). `from`/`to` tint the zoom animation behind it.
+ * `scale` resizes `image` inside the tile: below 1 adds margin, above 1 crops the artwork's own edge.
  */
-export type IconStyle = { from: string; to: string } & ({ image: string; art?: never } | { art: SystemArt; image?: never })
+export type IconStyle = { from: string; to: string; scale?: number } & ({ image: string; art?: never } | { art: SystemArt; image?: never })
 
 export interface Metric {
   value: string

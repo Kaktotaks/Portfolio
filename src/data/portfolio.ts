@@ -1,4 +1,6 @@
 import avatar from '../assets/img/avatar.webp'
+import iconAbout from '../assets/img/icon-about.png'
+import iconExperience from '../assets/img/icon-experience.png'
 import iconFsfu from '../assets/img/icon-fsfu.webp'
 import iconGithub from '../assets/img/icon-github.webp'
 import iconGmail from '../assets/img/icon-gmail.webp'
@@ -6,6 +8,9 @@ import iconInstagram from '../assets/img/icon-instagram.webp'
 import iconLinkedin from '../assets/img/icon-linkedin.webp'
 import iconLifecell from '../assets/img/icon-lifecell.webp'
 import iconLiven from '../assets/img/icon-liven.webp'
+import iconNotes from '../assets/img/icon-notes.png'
+import iconPhotos from '../assets/img/icon-photos.png'
+import iconSkills from '../assets/img/icon-skills.png'
 import iconTelquel from '../assets/img/icon-telquel.webp'
 import type { HomeApp, LinkApp, Profile, Project, Screenshot, SystemApp } from './types'
 
@@ -310,11 +315,11 @@ export const projects: Project[] = [
 ]
 
 const systemApps: SystemApp[] = [
-  { kind: 'system', id: 'about', name: 'About', icon: { from: '#fbfbfd', to: '#c9c9d0', art: 'contact' } },
-  { kind: 'system', id: 'notes', name: 'Experience', icon: { from: '#ffbe4d', to: '#ff7d0a', art: 'briefcase' } },
-  { kind: 'system', id: 'settings', name: 'Skills', icon: { from: '#9a9aa0', to: '#4a4a50', art: 'gear' } },
-  { kind: 'system', id: 'photos', name: 'Photos', icon: { from: '#ffffff', to: '#f1f1f4', art: 'photos' } },
-  { kind: 'system', id: 'notes-app', name: 'Notes', icon: { from: '#fff6cc', to: '#ffd84d', art: 'notes' } },
+  { kind: 'system', id: 'about', name: 'About', icon: { from: '#ffffff', to: '#ffffff', image: iconAbout, scale: 0.72 } },
+  { kind: 'system', id: 'notes', name: 'Experience', icon: { from: '#f2f2f2', to: '#e4e4e4', image: iconExperience } },
+  { kind: 'system', id: 'settings', name: 'Skills', icon: { from: '#ffffff', to: '#ffffff', image: iconSkills, scale: 1.14 } },
+  { kind: 'system', id: 'photos', name: 'Photos', icon: { from: '#ffffff', to: '#ffffff', image: iconPhotos, scale: 0.8 } },
+  { kind: 'system', id: 'notes-app', name: 'Notes', icon: { from: '#f2f2f2', to: '#e4e4e4', image: iconNotes, scale: 1.1 } },
 ]
 
 /** All contact links (About, Control Center). The dock shows a subset. */
@@ -345,7 +350,7 @@ export const contacts: LinkApp[] = [
     kind: 'link',
     id: 'instagram',
     name: 'Instagram',
-    icon: { from: '#f58529', to: '#c13584', image: iconInstagram },
+    icon: { from: '#f58529', to: '#c13584', image: iconInstagram, scale: 1.12 },
     url: 'https://www.instagram.com/kaktotaks/',
   },
 ]

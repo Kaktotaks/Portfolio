@@ -201,7 +201,7 @@ defineExpose({ close })
       :style="{ '--from': icon.from, '--to': icon.to, opacity: iconOpacity }"
       aria-hidden="true"
     >
-      <img v-if="icon.image" :src="icon.image" alt="" />
+      <img v-if="icon.image" :src="icon.image" :style="{ scale: icon.scale }" alt="" />
       <SystemIconArt v-else-if="icon.art" :art="icon.art" class="face-art" />
     </div>
 

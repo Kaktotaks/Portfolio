@@ -12,7 +12,10 @@ defineProps<{ icon: IconStyle; size?: string }>()
 
 <template>
   <span class="icon-tile" :style="{ '--size': size ?? 'var(--icon-size)' }">
-    <img v-if="icon.image" class="art" :src="icon.image" alt="" draggable="false" />
+    <!-- Gradient fills any transparent margin in the artwork, as on the opening window's icon face -->
+    <span v-if="icon.image" class="art" :style="{ background: `linear-gradient(165deg, ${icon.from}, ${icon.to})` }">
+      <img class="image" :src="icon.image" :style="{ scale: icon.scale }" alt="" draggable="false" />
+    </span>
     <span v-else-if="icon.art" class="art"><SystemIconArt :art="icon.art" /></span>
     <span class="edge" aria-hidden="true" />
   </span>
@@ -49,6 +52,13 @@ defineProps<{ icon: IconStyle; size?: string }>()
   corner-shape: inherit;
   object-fit: cover;
   user-select: none;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* Light catching the rim: brighter at the top edge, a faint dark line at the bottom */
