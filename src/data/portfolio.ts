@@ -40,7 +40,7 @@ export const profile: Profile = {
   email: 'leonidshevchenko350@gmail.com',
   photo: avatar,
   bio:
-    'Mobile (iOS) and product engineer with 5+ years in UIKit and SwiftUI, plus hands-on web with Vue 3 and TypeScript. ' +
+    'Mobile (iOS) and product engineer with 7+ years in tech, 5+ of them in UIKit and SwiftUI, plus hands-on web with Vue 3 and TypeScript. ' +
     'I like the unglamorous parts that make apps feel good: stability, debugging, attribution, paywalls ' +
     'and the tooling that lets a team ship faster.',
   languages: ['Ukrainian — native', 'English — C1'],

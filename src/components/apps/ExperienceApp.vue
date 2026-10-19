@@ -7,7 +7,7 @@ defineProps<{ experience: Role[] }>()
 <template>
   <article class="page">
     <h1>Experience</h1>
-    <p class="lead">5+ years building iOS and web products, after 8 years in banking at PrivatBank.</p>
+    <p class="lead">7+ years in tech: 5+ years building iOS and web products, after 8 years in banking at PrivatBank.</p>
 
     <ol class="timeline group glass">
       <li v-for="role in experience" :key="role.company + role.period">
