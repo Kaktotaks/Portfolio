@@ -5,6 +5,7 @@ import iconFsfu from '../assets/img/icon-fsfu.webp'
 import iconGithub from '../assets/img/icon-github.webp'
 import iconGmail from '../assets/img/icon-gmail.webp'
 import iconInstagram from '../assets/img/icon-instagram.webp'
+import iconKmp from '../assets/img/icon-kmp.webp'
 import iconLinkedin from '../assets/img/icon-linkedin.webp'
 import iconLifecell from '../assets/img/icon-lifecell.webp'
 import iconLiven from '../assets/img/icon-liven.webp'
@@ -25,6 +26,12 @@ const SHOT_RATIO: Record<string, number> = {
 }
 const shots = (app: string, alts: string[]): Screenshot[] =>
   alts.map((alt, i) => ({ src: shotFiles[`../assets/img/shot-${app}-${i + 1}.webp`], alt, ratio: SHOT_RATIO[app] }))
+
+// KMP project mixes iPhone (420×937) and Android (420×911) captures, so each shot carries its own ratio
+const KMP_IOS = 420 / 937
+const KMP_ANDROID = 420 / 911
+const kmpShots = (items: [alt: string, ratio: number][]): Screenshot[] =>
+  items.map(([alt, ratio], i) => ({ src: shotFiles[`../assets/img/shot-kmp-${i + 1}.webp`], alt, ratio }))
 
 /**
  * Single source of truth for the site.
@@ -348,6 +355,78 @@ export const projects: Project[] = [
       'Catch photo with GPS and timestamp overlay',
     ]),
     links: [{ label: 'App Store', url: 'https://apps.apple.com/ua/app/fsfu/id6624305618' }],
+  },
+  {
+    kind: 'project',
+    id: 'kmp',
+    name: 'KMP Project',
+    icon: { from: '#e4f53c', to: '#141414', image: iconKmp },
+    company: 'Pet project',
+    role: 'Solo developer (iOS, Android, KMP)',
+    period: '10.2026 — present',
+    platforms: ['iOS', 'Android'],
+    tagline: 'One brain, two native apps — a brownfield Kotlin Multiplatform migration',
+    product:
+      'The same Tasks app (list, detail, editor, stats) shipped twice — natively in SwiftUI and in Jetpack Compose — ' +
+      'then refactored step by step until everything except the screens lives in one shared Kotlin module. ' +
+      'The UI stays native on both sides.',
+    summary:
+      'A showcase of how I would bring KMP into an existing product without a rewrite: domain, data and ViewModels move ' +
+      'into shared code one layer at a time, the iOS side keeps an idiomatic Swift API, and releases flow from shared ' +
+      'to both apps through CI.',
+    highlights: [
+      'Started from two native apps with an identical spec and no shared code, then migrated layer by layer: domain → data → ViewModels.',
+      'Shared module: domain rules, Ktor networking, persistence and androidx ViewModels, written and tested once for both platforms.',
+      'Swift-friendly API with SKIE: suspend → async/await, StateFlow → AsyncSequence, sealed classes → Swift enums.',
+      'iOS app (SwiftUI, iOS 17) consumes shared as a Swift package with a binary XCFramework; Combine ViewModels wrap the Kotlin ones.',
+      'Android app (Jetpack Compose, Material 3) consumes shared as a versioned Maven dependency, with a composite-build switch for local work.',
+      'CI on GitHub Actions publishes the XCFramework via SPM and the AAR via Maven (GitHub Packages).',
+      'In progress: SQLDelight persistence and voice notes with recorder logic in shared; next up — tasks on a map with MapLibre.',
+    ],
+    impact: [
+      'Everything except the screens lives in one shared Kotlin module — one source of truth for business logic on iOS and Android.',
+      'Native UI on both platforms with identical tokens, components and copy; only the system chrome differs.',
+    ],
+    metrics: [
+      { value: '2', label: 'native apps' },
+      { value: '1', label: 'shared module' },
+      { value: '3', label: 'repositories' },
+    ],
+    team: 'Solo',
+    domain: 'Productivity · Kotlin Multiplatform',
+    stack: [
+      'Kotlin Multiplatform',
+      'Kotlin 2.4',
+      'SKIE',
+      'Ktor',
+      'SQLDelight',
+      'Coroutines',
+      'androidx ViewModel',
+      'SwiftUI',
+      'Combine',
+      'XCTest',
+      'Jetpack Compose',
+      'Material 3',
+      'SPM (XCFramework)',
+      'Maven',
+      'GitHub Actions',
+    ],
+    screenshots: kmpShots([
+      ['iOS: task list', KMP_IOS],
+      ['Android: task list', KMP_ANDROID],
+      ['iOS: stats, dark mode', KMP_IOS],
+      ['Android: stats', KMP_ANDROID],
+      ['iOS: task detail, dark mode', KMP_IOS],
+      ['Android: task detail', KMP_ANDROID],
+      ['iOS: new task editor with validation', KMP_IOS],
+      ['Android: task list, dark mode', KMP_ANDROID],
+    ]),
+    links: [
+      { label: 'Website', url: 'https://kaktotaks.github.io/KMP-Project/' },
+      { label: 'GitHub · shared (KMP)', url: 'https://github.com/Kaktotaks/KMPBrownfield-shared' },
+      { label: 'GitHub · iOS app', url: 'https://github.com/Kaktotaks/KMPBrownfield-ios' },
+      { label: 'GitHub · Android app', url: 'https://github.com/Kaktotaks/KMPBrownfield-android' },
+    ],
   },
 ]
 

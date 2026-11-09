@@ -85,7 +85,7 @@ async function share() {
       </div>
       <p class="device">
         <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><rect x="4.5" y="1.5" width="7" height="13" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.3" /></svg>
-        {{ project.platforms.includes('Web') ? 'iPhone · also on the Web' : 'iPhone' }}
+        {{ project.platforms.includes('Android') ? 'iPhone · Android' : project.platforms.includes('Web') ? 'iPhone · also on the Web' : 'iPhone' }}
       </p>
     </section>
 
@@ -147,10 +147,12 @@ async function share() {
         <div v-if="project.domain"><dt>Category</dt><dd>{{ project.domain }}</dd></div>
         <div><dt>Platforms</dt><dd>{{ project.platforms.join(', ') }}</dd></div>
       </dl>
-      <a v-if="storeLink" class="store-link" :href="storeLink.url" target="_blank" rel="noopener noreferrer">
-        View on {{ storeLink.label }}
-        <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
-      </a>
+      <div v-if="project.links?.length" class="store-links">
+        <a v-for="link in project.links" :key="link.url" class="store-link" :href="link.url" target="_blank" rel="noopener noreferrer">
+          View on {{ link.label }}
+          <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </a>
+      </div>
     </section>
   </article>
 </template>
@@ -487,11 +489,18 @@ h1 {
   text-align: right;
 }
 
+.store-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 14px;
+}
+
 .store-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin-top: 14px;
   color: var(--tint);
   text-decoration: none;
   font-weight: 500;
